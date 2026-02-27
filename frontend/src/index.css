@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ARK Learning Arena – Design System
+   Brand: Dark Blue #0B2C55 | White #FFFFFF | Yellow #FFC107 | Pink #FF4CAF
+   All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* ARK Core Brand */
+    --ark-navy: 213 79% 19%;          /* #0B2C55 */
+    --ark-navy-light: 213 60% 28%;    /* Lighter navy for gradients */
+    --ark-navy-deep: 213 85% 12%;     /* Deeper navy for dark sections */
+    --ark-yellow: 43 100% 51%;        /* #FFC107 */
+    --ark-yellow-light: 43 100% 65%;  /* Lighter yellow */
+    --ark-pink: 322 100% 65%;         /* #FF4CAF */
+    --ark-pink-muted: 322 80% 72%;
+
+    /* Semantic Tokens mapped to ARK brand */
+    --background: 0 0% 100%;
+    --foreground: 213 79% 19%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 213 79% 19%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 213 79% 19%;
+
+    --primary: 213 79% 19%;           /* Dark Blue */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 43 100% 51%;         /* Yellow */
+    --secondary-foreground: 213 79% 19%;
+
+    --muted: 213 20% 95%;
+    --muted-foreground: 213 30% 50%;
+
+    --accent: 322 100% 65%;           /* Pink */
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 213 20% 88%;
+    --input: 213 20% 88%;
+    --ring: 213 79% 19%;
+
+    --radius: 0.75rem;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(213 85% 12%) 0%, hsl(213 79% 22%) 60%, hsl(213 60% 30%) 100%);
+    --gradient-yellow: linear-gradient(135deg, hsl(43 100% 51%) 0%, hsl(43 100% 65%) 100%);
+    --gradient-cta: linear-gradient(135deg, hsl(213 79% 19%) 0%, hsl(213 60% 28%) 100%);
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%) 0%, hsl(213 20% 97%) 100%);
+    --gradient-results: linear-gradient(135deg, hsl(213 85% 12%) 0%, hsl(213 70% 18%) 100%);
+
+    /* Shadows */
+    --shadow-card: 0 4px 24px -4px hsl(213 79% 19% / 0.12);
+    --shadow-card-hover: 0 12px 40px -8px hsl(213 79% 19% / 0.22);
+    --shadow-yellow: 0 6px 24px -4px hsl(43 100% 51% / 0.4);
+    --shadow-nav: 0 2px 20px hsl(213 79% 19% / 0.12);
+
+    /* Sidebar (not used but required) */
+    --sidebar-background: 213 79% 19%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 43 100% 51%;
+    --sidebar-primary-foreground: 213 79% 19%;
+    --sidebar-accent: 213 60% 28%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 213 60% 28%;
+    --sidebar-ring: 43 100% 51%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+}
+
+@layer utilities {
+  /* ARK Brand Utilities */
+  .bg-ark-navy { background-color: hsl(var(--ark-navy)); }
+  .bg-ark-navy-deep { background-color: hsl(var(--ark-navy-deep)); }
+  .bg-ark-yellow { background-color: hsl(var(--ark-yellow)); }
+  .bg-ark-pink { background-color: hsl(var(--ark-pink)); }
+  .text-ark-navy { color: hsl(var(--ark-navy)); }
+  .text-ark-yellow { color: hsl(var(--ark-yellow)); }
+  .text-ark-pink { color: hsl(var(--ark-pink)); }
+
+  .bg-gradient-hero { background: var(--gradient-hero); }
+  .bg-gradient-results { background: var(--gradient-results); }
+  .bg-gradient-cta { background: var(--gradient-cta); }
+
+  .shadow-card { box-shadow: var(--shadow-card); }
+  .shadow-card-hover { box-shadow: var(--shadow-card-hover); }
+  .shadow-yellow { box-shadow: var(--shadow-yellow); }
+  .shadow-nav { box-shadow: var(--shadow-nav); }
+
+  /* Gradient text */
+  .text-gradient-yellow {
+    background: var(--gradient-yellow);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Section spacing */
+  .section-padding { @apply py-16 md:py-24; }
+  .container-ark { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+
+  /* Animated underline */
+  .link-underline {
+    @apply relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-ark-yellow after:transition-all after:duration-300 hover:after:w-full;
+  }
+}
+
+/* Scroll animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(43 100% 51% / 0.4); }
+  50% { box-shadow: 0 0 0 12px hsl(43 100% 51% / 0); }
+}
+
+@keyframes counter-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+/* WhatsApp sticky button */
+.whatsapp-sticky {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  border-radius: 50%;
+  box-shadow: 0 8px 32px hsl(130 60% 40% / 0.5);
+}
+
+/* Mobile CTA sticky */
+.mobile-cta-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 998;
+}
+
+/* Accordion animations */
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground; }
+}
+
+/* ── Modern Scrollbar ── */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--ark-yellow) / 0.6) hsl(var(--ark-navy) / 0.08);
+}
+
+*::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+  background: hsl(var(--ark-navy) / 0.06);
+  border-radius: 999px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ark-yellow) / 0.75),
+    hsl(var(--ark-navy) / 0.55)
+  );
+  border-radius: 999px;
+  border: 1px solid hsl(var(--ark-yellow) / 0.15);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(
+    180deg,
+    hsl(var(--ark-yellow)),
+    hsl(var(--ark-navy) / 0.8)
+  );
+}
+
+*::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Hide scrollbar on elements that use scrollbar-none */
+.scrollbar-none {
+  scrollbar-width: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
