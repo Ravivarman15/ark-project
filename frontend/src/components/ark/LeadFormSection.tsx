@@ -14,9 +14,9 @@ const programs = [
   "ARK Nestlings",
 ];
 
-// API base URL — uses Vite proxy in dev, direct in production
+// API base URL — uses Vite proxy in dev, Render backend in production
 const API_BASE = import.meta.env.PROD
-  ? (import.meta.env.VITE_API_URL || "")
+  ? (import.meta.env.VITE_API_URL || "https://ark-backend-39nq.onrender.com")
   : "";
 
 interface FormErrors {
