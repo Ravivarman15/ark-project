@@ -26,7 +26,7 @@ const allowedOrigins = [
 ].filter(Boolean) as string[];
 
 app.use(cors({
-    origin: (origin, callback) => {
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
         // Allow requests with no origin (like mobile apps or curl)
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === "development") {
@@ -66,7 +66,7 @@ const transporter = nodemailer.createTransport({
 // Verify transporter on startup
 transporter.verify()
     .then(() => console.log("✅ SMTP connection verified"))
-    .catch((err) => console.error("❌ SMTP connection failed:", err.message));
+    .catch((err: Error) => console.error("❌ SMTP connection failed:", err.message));
 
 // ─── Helpers ───
 function sanitize(str: string): string {
@@ -89,7 +89,7 @@ function isValidPhone(phone: string): boolean {
 }
 
 // ─── Assessment Lead Endpoint ───
-app.post("/api/assessment-lead", assessmentLimiter, async (req, res) => {
+app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request, res: express.Response) => {
     try {
         const { name, email, phone, grade, program, honeypot } = req.body;
 
@@ -235,7 +235,7 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req, res) => {
 });
 
 // ─── Health Check ───
-app.get("/api/health", (_req, res) => {
+app.get("/api/health", (_req: express.Request, res: express.Response) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
