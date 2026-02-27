@@ -16,7 +16,13 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // ─── Resend Email Client ───
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Guard: don't crash if key is missing, log warning instead
+let resend: Resend | null = null;
+if (process.env.RESEND_API_KEY) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+} else {
+    console.warn("⚠️  RESEND_API_KEY not set — email sending will be disabled");
+}
 
 // ─── Middleware ───
 // Temporarily allow all origins during initial deployment
@@ -115,6 +121,7 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
         const results = await Promise.allSettled([
             // 1️⃣ Send user welcome email via Resend
             (async () => {
+                if (!resend) { console.warn("  ⚠️  Resend not configured — skipping user email"); return; }
                 const { subject, html } = getUserWelcomeEmail(leadData);
                 await resend.emails.send({
                     from: "ARK Learning Arena <onboarding@resend.dev>",
@@ -127,6 +134,7 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
 
             // 2️⃣ Send admin notification email via Resend
             (async () => {
+                if (!resend) { console.warn("  ⚠️  Resend not configured — skipping admin email"); return; }
                 const adminEmail = process.env.ADMIN_EMAIL || "admin@thearktuition.com";
                 const { subject, html } = getAdminNotificationEmail(leadData);
                 await resend.emails.send({
