@@ -19,24 +19,12 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // ─── Middleware ───
-const allowedOrigins = [
-    process.env.FRONTEND_URL,
-    "http://localhost:8080",
-    "http://localhost:5173",
-].filter(Boolean) as string[];
-
+// Temporarily allow all origins during initial deployment
+// TODO: Restrict to specific origins after Vercel deployment is confirmed
 app.use(cors({
-    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-        // Allow requests with no origin (like mobile apps or curl)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === "development") {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
+    origin: "*",
     methods: ["POST", "GET"],
-    credentials: true
+    credentials: false
 }));
 app.use(express.json({ limit: "10kb" }));
 
