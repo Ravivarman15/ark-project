@@ -1,22 +1,22 @@
 // ═══════════════════════════════════════════════════════════════
 //  ARK Learning Arena — Backend API Server
-//  Handles: Email automation, Zapier webhook, rate limiting
+//  Handles: Email automation (Resend), Zapier webhook, rate limiting
 // ═══════════════════════════════════════════════════════════════
 
 import express from "express";
 import cors from "cors";
-import nodemailer from "nodemailer";
+import { Resend } from "resend";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
-import path from "path";
 import { getUserWelcomeEmail, getAdminNotificationEmail } from "./email-templates";
-
-const LOGO_PATH = path.resolve(__dirname, "..", "public", "ark-logo.jpeg");
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+
+// ─── Resend Email Client ───
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // ─── Middleware ───
 // Temporarily allow all origins during initial deployment
@@ -39,22 +39,6 @@ const assessmentLimiter = rateLimit({
     standardHeaders: true,
     legacyHeaders: false,
 });
-
-// ─── Nodemailer Transporter ───
-const transporter = nodemailer.createTransport({
-    host: process.env.SMTP_HOST || "smtp.gmail.com",
-    port: parseInt(process.env.SMTP_PORT || "587"),
-    secure: process.env.SMTP_SECURE === "true", // true for 465, false for 587
-    auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-    },
-});
-
-// Verify transporter on startup
-transporter.verify()
-    .then(() => console.log("✅ SMTP connection verified"))
-    .catch((err: Error) => console.error("❌ SMTP connection failed:", err.message));
 
 // ─── Helpers ───
 function sanitize(str: string): string {
@@ -129,29 +113,24 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
 
         // ── Run all 3 tasks in parallel ──
         const results = await Promise.allSettled([
-            // 1️⃣ Send user welcome email
+            // 1️⃣ Send user welcome email via Resend
             (async () => {
                 const { subject, html } = getUserWelcomeEmail(leadData);
-                await transporter.sendMail({
-                    from: `"ARK Learning Arena" <${process.env.SMTP_USER}>`,
+                await resend.emails.send({
+                    from: "ARK Learning Arena <onboarding@resend.dev>",
                     to: leadData.email,
                     subject,
                     html,
-                    attachments: [{
-                        filename: "ark-logo.jpeg",
-                        path: LOGO_PATH,
-                        cid: "arklogo",
-                    }],
                 });
                 console.log(`  ✉️  Welcome email sent to ${leadData.email}`);
             })(),
 
-            // 2️⃣ Send admin notification email
+            // 2️⃣ Send admin notification email via Resend
             (async () => {
-                const adminEmail = process.env.ADMIN_EMAIL || process.env.SMTP_USER;
+                const adminEmail = process.env.ADMIN_EMAIL || "admin@thearktuition.com";
                 const { subject, html } = getAdminNotificationEmail(leadData);
-                await transporter.sendMail({
-                    from: `"ARK Lead System" <${process.env.SMTP_USER}>`,
+                await resend.emails.send({
+                    from: "ARK Lead System <onboarding@resend.dev>",
                     to: adminEmail,
                     subject,
                     html,
@@ -202,15 +181,9 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
         }
 
         // Even if some tasks fail, we return success to the user
-        // (emails will be retried or handled via logs)
         return res.json({
             success: true,
             message: "Assessment request received successfully.",
-            _debug: process.env.NODE_ENV === "development" ? {
-                emailSent: !emailFailed,
-                adminNotified: !adminFailed,
-                sheetUpdated: !zapierFailed,
-            } : undefined,
         });
 
     } catch (err: any) {
@@ -229,9 +202,9 @@ app.get("/api/health", (_req: express.Request, res: express.Response) => {
 
 // ─── Start Server ───
 app.listen(PORT, () => {
-    console.log(`\n🚀 ARK Lead API running on http://localhost:${PORT}`);
+    console.log(`\n🚀 ARK Lead API running on port ${PORT}`);
     console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
-    console.log(`   SMTP: ${process.env.SMTP_USER || "NOT SET"}`);
-    console.log(`   Admin: ${process.env.ADMIN_EMAIL || process.env.SMTP_USER || "NOT SET"}`);
+    console.log(`   Resend API: ${process.env.RESEND_API_KEY ? "Configured" : "NOT SET"}`);
+    console.log(`   Admin: ${process.env.ADMIN_EMAIL || "NOT SET"}`);
     console.log(`   Zapier: ${process.env.ZAPIER_WEBHOOK_URL ? "Configured" : "NOT SET"}\n`);
 });
