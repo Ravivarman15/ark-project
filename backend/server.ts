@@ -25,10 +25,22 @@ if (process.env.RESEND_API_KEY) {
 }
 
 // ─── Middleware ───
-// Temporarily allow all origins during initial deployment
-// TODO: Restrict to specific origins after Vercel deployment is confirmed
+const allowedOrigins = [
+    "https://tuitionwithark.vercel.app",
+    "http://localhost:8080",
+    "http://localhost:5173",
+];
+
 app.use(cors({
-    origin: "*",
+    origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+        // Allow requests with no origin (like mobile apps or curl)
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === "development") {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
     methods: ["POST", "GET"],
     credentials: false
 }));
