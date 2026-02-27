@@ -2,7 +2,6 @@
     "name": "ark-backend",
     "version": "1.0.0",
     "private": true,
-    "type": "module",
     "main": "server.ts",
     "scripts": {
         "build": "tsc",

@@ -9,11 +9,8 @@ import nodemailer from "nodemailer";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import path from "path";
-import { fileURLToPath } from "url";
-import { getUserWelcomeEmail, getAdminNotificationEmail } from "./email-templates.js";
+import { getUserWelcomeEmail, getAdminNotificationEmail } from "./email-templates";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 const LOGO_PATH = path.resolve(__dirname, "..", "public", "ark-logo.jpeg");
 
 dotenv.config();
