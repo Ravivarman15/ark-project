@@ -8,7 +8,19 @@ import cors from "cors";
 import { Resend } from "resend";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
+import fs from "fs";
+import path from "path";
 import { getUserWelcomeEmail, getAdminNotificationEmail } from "./email-templates";
+
+// ─── Load ARK logo as Base64 for CID email embedding ───
+const logoPath = path.join(__dirname, "ark-logo.jpeg");
+let logoBase64 = "";
+try {
+    logoBase64 = fs.readFileSync(logoPath).toString("base64");
+    console.log("✅ ARK logo loaded for email embedding");
+} catch (err) {
+    console.warn("⚠️  Could not load ark-logo.jpeg — emails will be sent without logo");
+}
 
 dotenv.config();
 
@@ -140,6 +152,12 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
                     to: leadData.email,
                     subject,
                     html,
+                    attachments: logoBase64 ? [{
+                        filename: "ark-logo.jpeg",
+                        content: logoBase64,
+                        contentType: "image/jpeg",
+                        contentId: "ark-logo",
+                    }] : undefined,
                 });
                 console.log(`  ✉️  Welcome email sent to ${leadData.email}`);
             })(),
@@ -154,6 +172,12 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
                     to: adminEmail,
                     subject,
                     html,
+                    attachments: logoBase64 ? [{
+                        filename: "ark-logo.jpeg",
+                        content: logoBase64,
+                        contentType: "image/jpeg",
+                        contentId: "ark-logo",
+                    }] : undefined,
                 });
                 console.log(`  📩 Admin notification sent to ${adminEmail}`);
             })(),

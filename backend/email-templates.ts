@@ -73,7 +73,7 @@ export function getUserWelcomeEmail(data: LeadData): { subject: string; html: st
     <tr>
       <td style="background:linear-gradient(135deg, ${COLORS.navy} 0%, ${COLORS.navyDeep} 100%);padding:40px 32px;text-align:center;">
         <img
-          src="https://tuitionwithark.com/ark-logo.jpeg"
+          src="cid:ark-logo"
           alt="ARK Learning Arena"
           width="72"
           height="72"
