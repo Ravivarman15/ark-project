@@ -10,12 +10,18 @@
 @layer base {
   :root {
     /* ARK Core Brand */
-    --ark-navy: 213 79% 19%;          /* #0B2C55 */
-    --ark-navy-light: 213 60% 28%;    /* Lighter navy for gradients */
-    --ark-navy-deep: 213 85% 12%;     /* Deeper navy for dark sections */
-    --ark-yellow: 43 100% 51%;        /* #FFC107 */
-    --ark-yellow-light: 43 100% 65%;  /* Lighter yellow */
-    --ark-pink: 322 100% 65%;         /* #FF4CAF */
+    --ark-navy: 213 79% 19%;
+    /* #0B2C55 */
+    --ark-navy-light: 213 60% 28%;
+    /* Lighter navy for gradients */
+    --ark-navy-deep: 213 85% 12%;
+    /* Deeper navy for dark sections */
+    --ark-yellow: 43 100% 51%;
+    /* #FFC107 */
+    --ark-yellow-light: 43 100% 65%;
+    /* Lighter yellow */
+    --ark-pink: 322 100% 65%;
+    /* #FF4CAF */
     --ark-pink-muted: 322 80% 72%;
 
     /* Semantic Tokens mapped to ARK brand */
@@ -28,16 +34,19 @@
     --popover: 0 0% 100%;
     --popover-foreground: 213 79% 19%;
 
-    --primary: 213 79% 19%;           /* Dark Blue */
+    --primary: 213 79% 19%;
+    /* Dark Blue */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 43 100% 51%;         /* Yellow */
+    --secondary: 43 100% 51%;
+    /* Yellow */
     --secondary-foreground: 213 79% 19%;
 
     --muted: 213 20% 95%;
     --muted-foreground: 213 30% 50%;
 
-    --accent: 322 100% 65%;           /* Pink */
+    --accent: 322 100% 65%;
+    /* Pink */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -79,18 +88,26 @@
     @apply border-border;
   }
 
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
   html {
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
 
   body {
     @apply bg-background text-foreground;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    overflow-x: hidden;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: 700;
     line-height: 1.2;
@@ -98,23 +115,63 @@
 }
 
 @layer utilities {
+
   /* ARK Brand Utilities */
-  .bg-ark-navy { background-color: hsl(var(--ark-navy)); }
-  .bg-ark-navy-deep { background-color: hsl(var(--ark-navy-deep)); }
-  .bg-ark-yellow { background-color: hsl(var(--ark-yellow)); }
-  .bg-ark-pink { background-color: hsl(var(--ark-pink)); }
-  .text-ark-navy { color: hsl(var(--ark-navy)); }
-  .text-ark-yellow { color: hsl(var(--ark-yellow)); }
-  .text-ark-pink { color: hsl(var(--ark-pink)); }
+  .bg-ark-navy {
+    background-color: hsl(var(--ark-navy));
+  }
 
-  .bg-gradient-hero { background: var(--gradient-hero); }
-  .bg-gradient-results { background: var(--gradient-results); }
-  .bg-gradient-cta { background: var(--gradient-cta); }
+  .bg-ark-navy-deep {
+    background-color: hsl(var(--ark-navy-deep));
+  }
 
-  .shadow-card { box-shadow: var(--shadow-card); }
-  .shadow-card-hover { box-shadow: var(--shadow-card-hover); }
-  .shadow-yellow { box-shadow: var(--shadow-yellow); }
-  .shadow-nav { box-shadow: var(--shadow-nav); }
+  .bg-ark-yellow {
+    background-color: hsl(var(--ark-yellow));
+  }
+
+  .bg-ark-pink {
+    background-color: hsl(var(--ark-pink));
+  }
+
+  .text-ark-navy {
+    color: hsl(var(--ark-navy));
+  }
+
+  .text-ark-yellow {
+    color: hsl(var(--ark-yellow));
+  }
+
+  .text-ark-pink {
+    color: hsl(var(--ark-pink));
+  }
+
+  .bg-gradient-hero {
+    background: var(--gradient-hero);
+  }
+
+  .bg-gradient-results {
+    background: var(--gradient-results);
+  }
+
+  .bg-gradient-cta {
+    background: var(--gradient-cta);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .shadow-yellow {
+    box-shadow: var(--shadow-yellow);
+  }
+
+  .shadow-nav {
+    box-shadow: var(--shadow-nav);
+  }
 
   /* Gradient text */
   .text-gradient-yellow {
@@ -125,8 +182,13 @@
   }
 
   /* Section spacing */
-  .section-padding { @apply py-16 md:py-24; }
-  .container-ark { @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8; }
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .container-ark {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
 
   /* Animated underline */
   .link-underline {
@@ -136,22 +198,48 @@
 
 /* Scroll animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-12px); }
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 hsl(43 100% 51% / 0.4); }
-  50% { box-shadow: 0 0 0 12px hsl(43 100% 51% / 0); }
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 hsl(43 100% 51% / 0.4);
+  }
+
+  50% {
+    box-shadow: 0 0 0 12px hsl(43 100% 51% / 0);
+  }
 }
 
 @keyframes counter-up {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.animate-float { animation: float 4s ease-in-out infinite; }
-.animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
 
 /* WhatsApp sticky button */
 .whatsapp-sticky {
@@ -174,8 +262,13 @@
 
 /* Accordion animations */
 @layer base {
-  * { @apply border-border; }
-  body { @apply bg-background text-foreground; }
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 /* ── Modern Scrollbar ── */
@@ -195,21 +288,17 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--ark-yellow) / 0.75),
-    hsl(var(--ark-navy) / 0.55)
-  );
+  background: linear-gradient(180deg,
+      hsl(var(--ark-yellow) / 0.75),
+      hsl(var(--ark-navy) / 0.55));
   border-radius: 999px;
   border: 1px solid hsl(var(--ark-yellow) / 0.15);
 }
 
 *::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(
-    180deg,
-    hsl(var(--ark-yellow)),
-    hsl(var(--ark-navy) / 0.8)
-  );
+  background: linear-gradient(180deg,
+      hsl(var(--ark-yellow)),
+      hsl(var(--ark-navy) / 0.8));
 }
 
 *::-webkit-scrollbar-corner {
@@ -220,6 +309,7 @@
 .scrollbar-none {
   scrollbar-width: none;
 }
+
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }

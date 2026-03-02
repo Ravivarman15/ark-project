@@ -229,8 +229,7 @@ export default function HeroSection() {
       <div className="bg-[#0B2C55] w-full">
         <div className="max-w-[1100px] mx-auto px-3 sm:px-5 lg:px-8 pt-4 pb-0">
           <div
-            className="relative rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
-            style={{ minHeight: 170 }}
+            className="relative w-full h-[220px] sm:h-[220px] md:h-[300px] lg:h-[350px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onTouchStart={e => setTouchX(e.targetTouches[0].clientX)}
@@ -249,12 +248,12 @@ export default function HeroSection() {
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -60 }}
                 transition={{ duration: 0.42, ease: "easeOut" }}
+                style={{ position: "absolute", inset: 0 }}
               >
                 <img
                   src={posterSlides[slide].image}
                   alt={posterSlides[slide].alt}
-                  className="w-full h-auto block"
-                  style={{ maxHeight: 480 }}
+                  className="w-full h-full object-cover block select-none pointer-events-none"
                   draggable={false}
                 />
               </motion.div>
@@ -511,6 +510,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-    </section>
+    </section >
   );
 }
