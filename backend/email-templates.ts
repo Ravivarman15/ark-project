@@ -192,7 +192,7 @@ export function getUserWelcomeEmail(data: LeadData): { subject: string; html: st
           <tr>
             <td align="center">
               <a
-                href="https://tuitionwithark.com/#programs"
+                href="https://tuitionwithark.vercel.app/#programs"
                 target="_blank"
                 style="display:inline-block;background:${COLORS.yellow};color:${COLORS.navy};font-size:15px;font-weight:800;padding:14px 36px;border-radius:10px;text-decoration:none;letter-spacing:0.3px;box-shadow:0 4px 14px rgba(255,193,7,0.35);"
               >

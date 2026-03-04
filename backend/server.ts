@@ -1,39 +1,76 @@
 // ═══════════════════════════════════════════════════════════════
 //  ARK Learning Arena — Backend API Server
-//  Handles: Email automation (Resend), Zapier webhook, rate limiting
+//  Handles: Email automation (Brevo API), Zapier webhook, rate limiting
 // ═══════════════════════════════════════════════════════════════
 
 import express from "express";
 import cors from "cors";
-import { Resend } from "resend";
 import rateLimit from "express-rate-limit";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { getUserWelcomeEmail, getAdminNotificationEmail } from "./email-templates";
 
-// ─── Load ARK logo as Base64 for CID email embedding ───
+dotenv.config();
+
+// ─── Load ARK logo as Base64 data URI for email embedding ───
 const logoPath = path.join(__dirname, "ark-logo.jpeg");
-let logoBase64 = "";
+let logoDataUri = "";
 try {
-    logoBase64 = fs.readFileSync(logoPath).toString("base64");
+    const logoBase64 = fs.readFileSync(logoPath).toString("base64");
+    logoDataUri = `data:image/jpeg;base64,${logoBase64}`;
     console.log("✅ ARK logo loaded for email embedding");
 } catch (err) {
     console.warn("⚠️  Could not load ark-logo.jpeg — emails will be sent without logo");
 }
 
-dotenv.config();
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// ─── Resend Email Client ───
-// Guard: don't crash if key is missing, log warning instead
-let resend: Resend | null = null;
-if (process.env.RESEND_API_KEY) {
-    resend = new Resend(process.env.RESEND_API_KEY);
-} else {
-    console.warn("⚠️  RESEND_API_KEY not set — email sending will be disabled");
+// ─── Brevo API Configuration ───
+const BREVO_API_KEY = process.env.BREVO_API_KEY || "";
+const BREVO_SENDER_EMAIL = "automation@thearktuition.com";
+const BREVO_SENDER_NAME = "ARK Learning Arena";
+
+if (!BREVO_API_KEY) {
+    console.error("❌ ERROR: BREVO_API_KEY is not set in .env — email automation will NOT work!");
+    console.error("   → Get your API key from https://app.brevo.com → SMTP & API → API Keys");
+}
+if (!process.env.ADMIN_EMAIL) {
+    console.error("❌ ERROR: ADMIN_EMAIL is not set in .env — admin notifications will NOT work!");
+}
+
+// ─── Brevo Email Helper ───
+async function sendBrevoEmail(
+    to: string,
+    subject: string,
+    html: string,
+    senderName: string = BREVO_SENDER_NAME
+): Promise<void> {
+    if (!BREVO_API_KEY) {
+        throw new Error("BREVO_API_KEY is not configured");
+    }
+
+    const response = await fetch("https://api.brevo.com/v3/smtp/email", {
+        method: "POST",
+        headers: {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "api-key": BREVO_API_KEY,
+        },
+        body: JSON.stringify({
+            sender: { name: senderName, email: BREVO_SENDER_EMAIL },
+            to: [{ email: to }],
+            subject,
+            htmlContent: html,
+        }),
+    });
+
+    if (!response.ok) {
+        const errorBody = await response.text();
+        console.error("  ❌ Brevo API error response:", errorBody);
+        throw new Error(`Brevo API responded with ${response.status}: ${errorBody}`);
+    }
 }
 
 // ─── Middleware ───
@@ -143,43 +180,21 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
 
         // ── Run all 3 tasks in parallel ──
         const results = await Promise.allSettled([
-            // 1️⃣ Send user welcome email via Resend
+            // 1️⃣ Send user welcome email via Brevo API
             (async () => {
-                if (!resend) { console.warn("  ⚠️  Resend not configured — skipping user email"); return; }
+                console.log("📧 Sending welcome email to user via Brevo...");
                 const { subject, html } = getUserWelcomeEmail(leadData);
-                await resend.emails.send({
-                    from: "ARK Learning Arena <onboarding@resend.dev>",
-                    to: leadData.email,
-                    subject,
-                    html,
-                    attachments: logoBase64 ? [{
-                        filename: "ark-logo.jpeg",
-                        content: logoBase64,
-                        contentType: "image/jpeg",
-                        contentId: "ark-logo",
-                    }] : undefined,
-                });
-                console.log(`  ✉️  Welcome email sent to ${leadData.email}`);
+                await sendBrevoEmail(leadData.email, subject, html);
+                console.log(`✅ Welcome email sent successfully to ${leadData.email}`);
             })(),
 
-            // 2️⃣ Send admin notification email via Resend
+            // 2️⃣ Send admin notification email via Brevo API
             (async () => {
-                if (!resend) { console.warn("  ⚠️  Resend not configured — skipping admin email"); return; }
+                console.log("📧 Sending admin notification email via Brevo...");
                 const adminEmail = process.env.ADMIN_EMAIL || "admin@thearktuition.com";
                 const { subject, html } = getAdminNotificationEmail(leadData);
-                await resend.emails.send({
-                    from: "ARK Lead System <onboarding@resend.dev>",
-                    to: adminEmail,
-                    subject,
-                    html,
-                    attachments: logoBase64 ? [{
-                        filename: "ark-logo.jpeg",
-                        content: logoBase64,
-                        contentType: "image/jpeg",
-                        contentId: "ark-logo",
-                    }] : undefined,
-                });
-                console.log(`  📩 Admin notification sent to ${adminEmail}`);
+                await sendBrevoEmail(adminEmail, subject, html, "ARK Lead System");
+                console.log(`✅ Admin notification sent successfully to ${adminEmail}`);
             })(),
 
             // 3️⃣ Send data to Zapier webhook (for Google Sheets)
@@ -215,13 +230,13 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
         const zapierFailed = results[2].status === "rejected";
 
         if (emailFailed) {
-            console.error("  ❌ User email failed:", (results[0] as PromiseRejectedResult).reason?.message);
+            console.error("❌ Brevo email failed (user):", (results[0] as PromiseRejectedResult).reason?.message);
         }
         if (adminFailed) {
-            console.error("  ❌ Admin email failed:", (results[1] as PromiseRejectedResult).reason?.message);
+            console.error("❌ Brevo email failed (admin):", (results[1] as PromiseRejectedResult).reason?.message);
         }
         if (zapierFailed) {
-            console.error("  ❌ Zapier webhook failed:", (results[2] as PromiseRejectedResult).reason?.message);
+            console.error("❌ Zapier webhook failed:", (results[2] as PromiseRejectedResult).reason?.message);
         }
 
         // Even if some tasks fail, we return success to the user
@@ -239,6 +254,56 @@ app.post("/api/assessment-lead", assessmentLimiter, async (req: express.Request,
     }
 });
 
+// ─── Test Email Endpoint (for local verification) ───
+app.get("/test-email", async (_req: express.Request, res: express.Response) => {
+    try {
+        if (!BREVO_API_KEY) {
+            return res.status(500).json({
+                success: false,
+                message: "BREVO_API_KEY is not set in .env",
+            });
+        }
+
+        const adminEmail = process.env.ADMIN_EMAIL || "admin@thearktuition.com";
+
+        console.log(`🧪 Sending test email to ${adminEmail}...`);
+
+        await sendBrevoEmail(
+            adminEmail,
+            "✅ ARK Brevo Test — Email Integration Working",
+            `
+            <div style="font-family:'Segoe UI',Roboto,Arial,sans-serif;max-width:500px;margin:0 auto;padding:32px;background:#f8f9fa;border-radius:12px;">
+                <h2 style="color:#0B2C55;margin:0 0 16px;">🎉 Brevo Integration Test</h2>
+                <p style="color:#374151;font-size:15px;line-height:1.6;">
+                    This is a test email from <strong>ARK Learning Arena</strong> backend.
+                </p>
+                <p style="color:#374151;font-size:15px;line-height:1.6;">
+                    If you're reading this, your Brevo email integration is working correctly!
+                </p>
+                <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;" />
+                <p style="color:#9CA3AF;font-size:12px;">
+                    Sent from: ${BREVO_SENDER_EMAIL}<br/>
+                    Timestamp: ${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}
+                </p>
+            </div>
+            `
+        );
+
+        console.log(`✅ Test email sent successfully to ${adminEmail}`);
+
+        return res.json({
+            success: true,
+            message: "Test email sent successfully",
+        });
+    } catch (err: any) {
+        console.error("❌ Test email failed:", err.message);
+        return res.status(500).json({
+            success: false,
+            message: `Test email failed: ${err.message}`,
+        });
+    }
+});
+
 // ─── Health Check ───
 app.get("/api/health", (_req: express.Request, res: express.Response) => {
     res.json({ status: "ok", timestamp: new Date().toISOString() });
@@ -248,7 +313,9 @@ app.get("/api/health", (_req: express.Request, res: express.Response) => {
 app.listen(PORT, () => {
     console.log(`\n🚀 ARK Lead API running on port ${PORT}`);
     console.log(`   Environment: ${process.env.NODE_ENV || "development"}`);
-    console.log(`   Resend API: ${process.env.RESEND_API_KEY ? "Configured" : "NOT SET"}`);
-    console.log(`   Admin: ${process.env.ADMIN_EMAIL || "NOT SET"}`);
-    console.log(`   Zapier: ${process.env.ZAPIER_WEBHOOK_URL ? "Configured" : "NOT SET"}\n`);
+    console.log(`   Brevo API: ${BREVO_API_KEY ? "✅ Configured" : "❌ NOT SET"}`);
+    console.log(`   Sender: ${BREVO_SENDER_EMAIL}`);
+    console.log(`   Admin: ${process.env.ADMIN_EMAIL || "❌ NOT SET"}`);
+    console.log(`   Zapier: ${process.env.ZAPIER_WEBHOOK_URL ? "✅ Configured" : "⚠️  NOT SET (optional)"}`);
+    console.log(`   Test endpoint: http://localhost:${PORT}/test-email\n`);
 });
