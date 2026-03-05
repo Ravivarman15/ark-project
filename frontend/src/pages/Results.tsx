@@ -29,7 +29,7 @@ const boardToppers = [
 
 const stats = [
     { value: "80%", label: "NEET Qualification Rate", desc: "Consistent qualification rate among coached students" },
-    { value: "3+", label: "Government Medical Seats", desc: "Students securing government medical college admissions" },
+    { value: "50%", label: "Government Medical Seats", desc: "Students securing government medical college admissions" },
     { value: "95%+", label: "Board Distinction Rate", desc: "Students achieving distinction in board examinations" },
     { value: "500+", label: "Students Coached", desc: "Students mentored through ARK's academic system" },
     { value: "10+", label: "Years of Excellence", desc: "Years of structured academic coaching in Chennai" },

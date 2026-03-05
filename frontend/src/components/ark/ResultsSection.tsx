@@ -102,7 +102,7 @@ export default function ResultsSection() {
         {/* Summary stats row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
           <StatCounter value={80} suffix="%" label="NEET Qualification" delay={0} />
-          <StatCounter value={3} suffix="+" label="Govt. Medical Seats" delay={0.1} />
+          <StatCounter value={50} suffix="%" label="Govt. Medical Seats" delay={0.1} />
           <StatCounter value={95} suffix="%" label="Board Distinctions" delay={0.2} />
           <StatCounter value={500} suffix="+" label="Students Coached" delay={0.3} />
         </div>

@@ -28,7 +28,7 @@ const posterSlides = [
 /* ─── Stats & Checks (used in content section below) ─── */
 const stats = [
   { label: "Qualification Rate", value: 80, suffix: "%" },
-  { label: "Govt Seats Secured", value: 3, suffix: "" },
+  { label: "Govt Seats Secured", value: 50, suffix: "%" },
   { label: "Years Experience", value: 10, suffix: "+" },
   { label: "Students Mentored", value: 1000, suffix: "+" },
 ];

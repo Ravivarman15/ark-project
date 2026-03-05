@@ -83,7 +83,7 @@ export default function NEETCoachingPage() {
                                     </a>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                                    {[{ val: "80%", label: "NEET Qualified" }, { val: "3+", label: "Govt Seats" }, { val: "600+", label: "Score Target" }, { val: "20", label: "Per Batch" }].map(s => (
+                                    {[{ val: "80%", label: "NEET Qualified" }, { val: "50%", label: "Govt Seats Secured" }, { val: "600+", label: "Score Target" }, { val: "20", label: "Per Batch" }].map(s => (
                                         <div key={s.label} className="text-center"><div className="text-2xl font-black text-[#FFC107]">{s.val}</div><div className="text-white/50 text-xs mt-1">{s.label}</div></div>
                                     ))}
                                 </div>
