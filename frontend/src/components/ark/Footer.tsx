@@ -13,6 +13,7 @@ const serviceLinks = [
 
 const companyLinks = [
   { label: "About ARK", href: "/about" },
+  { label: "ARK Culture", href: "/ark-culture" },
   { label: "Our Results", href: "/results-achievements" },
   { label: "Testimonials", href: "/testimonials" },
   { label: "Blog", href: "/blog" },

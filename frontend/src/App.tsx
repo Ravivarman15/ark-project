@@ -16,6 +16,7 @@ import BlogPage from "./pages/Blog";
 import BlogPostPage from "./pages/BlogPost";
 import FAQPage from "./pages/FAQ";
 import AboutPage from "./pages/About";
+import ArkCulturePage from "./pages/ArkCulture";
 import PrivacyPolicyPage from "./pages/PrivacyPolicy";
 
 const queryClient = new QueryClient();
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage /></PageWrapper>} />
           <Route path="/faq" element={<PageWrapper><FAQPage /></PageWrapper>} />
           <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+          <Route path="/ark-culture" element={<PageWrapper><ArkCulturePage /></PageWrapper>} />
           <Route path="/privacy-policy" element={<PageWrapper><PrivacyPolicyPage /></PageWrapper>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

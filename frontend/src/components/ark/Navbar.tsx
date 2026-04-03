@@ -9,10 +9,10 @@ const navLinks = [
   { label: "Home", href: "/" },
   { label: "Programs", href: "#programs" },
   { label: "About", href: "/about" },
+  { label: "ARK Culture", href: "/ark-culture" },
   { label: "Results", href: "/results-achievements" },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
-  { label: "Contact", href: "#contact" },
 ];
 
 export default function Navbar() {
