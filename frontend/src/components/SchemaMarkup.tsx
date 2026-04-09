@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 // Inject JSON-LD structured data into page head
 export function JsonLd({ data }: { data: Record<string, unknown> }) {
@@ -28,7 +29,7 @@ export function LocalBusinessSchema() {
             alternateName: "ARK Chennai",
             description: "Chennai's premier academic institution offering NEET coaching, Class 6-12 tuition, board exam preparation, and foundation programs with structured academic systems and expert mentorship.",
             url: "https://tuitionwithark.com",
-            telephone: "+917639399217",
+            telephone: CONTACT_DETAILS.callPhoneNumber,
             email: "info@tuitionwithark.com",
             address: { "@type": "PostalAddress", streetAddress: "ARK Learning Arena", addressLocality: "Chennai", addressRegion: "Tamil Nadu", postalCode: "600000", addressCountry: "IN" },
             geo: { "@type": "GeoCoordinates", latitude: "13.0827", longitude: "80.2707" },
@@ -87,7 +88,7 @@ export function EducationalOrgSchema() {
             url: "https://tuitionwithark.com",
             description: "Chennai's premier academic institution — NEET coaching, Class 6-12 tuition, board exam preparation.",
             address: { "@type": "PostalAddress", addressLocality: "Chennai", addressRegion: "Tamil Nadu", addressCountry: "IN" },
-            telephone: "+917639399217",
+            telephone: CONTACT_DETAILS.callPhoneNumber,
             founder: { "@type": "Person", name: "Prathiba", jobTitle: "Founder & Academic Director" },
         }} />
     );

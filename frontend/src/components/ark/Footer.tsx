@@ -1,6 +1,7 @@
 import { Phone, MessageCircle, MapPin, Mail, Instagram, Youtube, Facebook, ExternalLink } from "lucide-react";
 import { Link } from "react-router-dom";
 import arkLogo from "@/assets/ark-logo.jpeg";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const serviceLinks = [
   { label: "NEET Coaching", href: "/neet-coaching-in-chennai" },
@@ -50,9 +51,9 @@ export default function Footer() {
             <div className="bg-white/5 border border-white/10 rounded-xl p-4 mb-6" itemScope itemType="https://schema.org/LocalBusiness">
               <meta itemProp="name" content="ARK Learning Arena" />
               <div className="space-y-3">
-                <a href="tel:+917639399217" className="flex items-center gap-3 text-white/80 hover:text-ark-yellow transition-colors text-sm" itemProp="telephone">
+                <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-3 text-white/80 hover:text-ark-yellow transition-colors text-sm" itemProp="telephone">
                   <Phone className="w-4 h-4 text-ark-yellow flex-shrink-0" />
-                  <span className="font-semibold">+91 76393 99217</span>
+                  <span className="font-semibold">{CONTACT_DETAILS.displayPhoneNumber}</span>
                 </a>
                 <a href="mailto:info@tuitionwithark.com" className="flex items-center gap-3 text-white/70 hover:text-ark-yellow transition-colors text-sm">
                   <Mail className="w-4 h-4 text-ark-yellow flex-shrink-0" />
@@ -152,7 +153,7 @@ export default function Footer() {
             </div>
           </div>
           <a
-            href="https://wa.me/917639399217?text=Hi%2C%20I%20need%20help%20with%20admissions%20at%20ARK%20Learning%20Arena."
+            href={`${CONTACT_DETAILS.whatsappLink}?text=Hi%2C%20I%20need%20help%20with%20admissions%20at%20ARK%20Learning%20Arena.`}
             className="bg-green-500 hover:bg-green-600 text-white font-bold px-6 py-3 rounded-xl transition-colors flex items-center gap-2"
           >
             <MessageCircle className="w-5 h-5" />

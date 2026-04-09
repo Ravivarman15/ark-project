@@ -10,6 +10,7 @@ import SEOHead from "@/components/SEOHead";
 import { BreadcrumbSchema, FAQPageSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { faqCategories } from "@/data/faqData";
 import { useState } from "react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const tuitionFaqs = faqCategories.find(c => c.id === "tuition")?.faqs.slice(0, 10) ?? [];
 
@@ -60,7 +61,7 @@ export default function TuitionCentrePage() {
                             <p className="text-white/60 leading-relaxed mb-8">With small batches of 15-20 students, performance analytics, and a 95%+ board distinction rate, ARK delivers measurable academic improvement for students across Chennai — from T. Nagar and Adyar to Velachery, Anna Nagar, and beyond.</p>
                             <div className="flex flex-wrap gap-3">
                                 <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-8 py-6 rounded-full" onClick={() => window.location.href = "/"}>Book Free Assessment <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Button>
-                                <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors"><Phone className="w-4 h-4" /> +91 76393 99217</a>
+                                <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors"><Phone className="w-4 h-4" /> {CONTACT_DETAILS.displayPhoneNumber}</a>
                             </div>
                         </motion.div>
                     </div>
@@ -186,7 +187,7 @@ export default function TuitionCentrePage() {
                         <p className="text-white/70 text-lg mb-8 max-w-2xl mx-auto">Book a free Academic Diagnostic Assessment. Discover your child's strengths, weaknesses, and the structured path to academic excellence.</p>
                         <div className="flex flex-wrap justify-center gap-4">
                             <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-10 py-6 text-lg rounded-full" onClick={() => window.location.href = "/"}>Book Free Assessment <ArrowRight className="ml-2 w-5 h-5" /></Button>
-                            <a href="https://wa.me/917639399217" className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp Us</a>
+                            <a href={CONTACT_DETAILS.whatsappLink} className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp Us</a>
                         </div>
                         <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/50 text-sm">
                             <Link to="/class-6-10-tuition" className="hover:text-[#FFC107] transition-colors">Class 6-10 Tuition →</Link>

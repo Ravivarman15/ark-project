@@ -1,5 +1,6 @@
 // ─── ARK Learning Arena: Comprehensive FAQ Data ───
 // 50 FAQs organized by category for SEO and AI visibility
+import { CONTACT_DETAILS } from "@/config/contact";
 
 export interface FAQ {
     q: string;
@@ -36,7 +37,7 @@ export const faqCategories: FAQCategory[] = [
             },
             {
                 q: "What is the fee structure for NEET coaching at ARK Chennai?",
-                a: "ARK Learning Arena offers competitive and transparent fee structures for our NEET coaching programs. Fees vary based on the program duration (2-year regular or crash course for repeaters). We also offer early enrollment discounts and sibling concessions. For detailed fee information, please contact our admissions team at +91 76393 99217 or book a free academic assessment.",
+                a: `ARK Learning Arena offers competitive and transparent fee structures for our NEET coaching programs. Fees vary based on the program duration (2-year regular or crash course for repeaters). We also offer early enrollment discounts and sibling concessions. For detailed fee information, please contact our admissions team at ${CONTACT_DETAILS.displayPhoneNumber} or book a free academic assessment.`,
             },
             {
                 q: "Does ARK offer a NEET Foundation program for younger students?",
@@ -74,7 +75,7 @@ export const faqCategories: FAQCategory[] = [
             },
             {
                 q: "How do I enroll for NEET coaching at ARK Chennai?",
-                a: "Enrolling at ARK is simple: (1) Book a free Academic Diagnostic Assessment (ADA) by calling +91 76393 99217 or filling our online form. (2) Attend the diagnostic test and counselling session. (3) Receive your personalized SWOT analysis and recommended program. (4) Complete registration and begin your structured NEET preparation journey. Early enrollment is recommended as batch sizes are limited.",
+                a: `Enrolling at ARK is simple: (1) Book a free Academic Diagnostic Assessment (ADA) by calling ${CONTACT_DETAILS.displayPhoneNumber} or filling our online form. (2) Attend the diagnostic test and counselling session. (3) Receive your personalized SWOT analysis and recommended program. (4) Complete registration and begin your structured NEET preparation journey. Early enrollment is recommended as batch sizes are limited.`,
             },
             {
                 q: "Does ARK provide NEET mock tests?",
@@ -158,7 +159,7 @@ export const faqCategories: FAQCategory[] = [
         faqs: [
             {
                 q: "Where is ARK Learning Arena located in Chennai?",
-                a: "ARK Learning Arena is located in Chennai, Tamil Nadu. Our centre is accessible from all major areas of Chennai including T. Nagar, Adyar, Velachery, Anna Nagar, and surrounding localities. We are situated in a well-connected area with easy access via public transport and private vehicles. Contact us at +91 76393 99217 for exact directions.",
+                a: `ARK Learning Arena is located in Chennai, Tamil Nadu. Our centre is accessible from all major areas of Chennai including T. Nagar, Adyar, Velachery, Anna Nagar, and surrounding localities. We are situated in a well-connected area with easy access via public transport and private vehicles. Contact us at ${CONTACT_DETAILS.displayPhoneNumber} for exact directions.`,
             },
             {
                 q: "Is ARK the best coaching centre in Chennai?",
@@ -175,7 +176,7 @@ export const faqCategories: FAQCategory[] = [
             },
             {
                 q: "What is the timing for classes at ARK Chennai?",
-                a: "ARK operates both morning and evening batches to accommodate different school schedules. Tuition classes run after school hours, NEET coaching has dedicated time slots, and our Nestlings program offers full-day and half-day options. Specific timings vary by program and batch. Contact us at +91 76393 99217 or WhatsApp us for the current schedule.",
+                a: `ARK operates both morning and evening batches to accommodate different school schedules. Tuition classes run after school hours, NEET coaching has dedicated time slots, and our Nestlings program offers full-day and half-day options. Specific timings vary by program and batch. Contact us at ${CONTACT_DETAILS.displayPhoneNumber} or WhatsApp us for the current schedule.`,
             },
             {
                 q: "How is ARK different from other coaching centres in Chennai?",
@@ -188,7 +189,7 @@ export const faqCategories: FAQCategory[] = [
             },
             {
                 q: "How do I contact ARK Learning Arena?",
-                a: "You can reach ARK Learning Arena through multiple channels: Phone: +91 76393 99217, Email: info@tuitionwithark.com, WhatsApp: wa.me/917639399217, Website: tuitionwithark.com. You can also visit our centre in Chennai directly. Our admissions counsellors are available to answer your questions and help you book a free Academic Diagnostic Assessment.",
+                a: `You can reach ARK Learning Arena through multiple channels: Phone: ${CONTACT_DETAILS.displayPhoneNumber}, Email: ${CONTACT_DETAILS.email}, WhatsApp: wa.me/${CONTACT_DETAILS.whatsappNumber}, Website: tuitionwithark.com. You can also visit our centre in Chennai directly. Our admissions counsellors are available to answer your questions and help you book a free Academic Diagnostic Assessment.`,
             },
             {
                 q: "Does ARK accept admissions throughout the year?",

@@ -10,6 +10,7 @@ import SEOHead from "@/components/SEOHead";
 import { BreadcrumbSchema, FAQPageSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { faqCategories } from "@/data/faqData";
 import { useState } from "react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const faqs = faqCategories.find(c => c.id === "tuition")?.faqs.slice(0, 8) ?? [];
 
@@ -51,7 +52,7 @@ export default function Class610Page() {
                             <p className="text-white/60 leading-relaxed mb-8">From foundation building in Class 6-7 to intensive board exam preparation in Class 10, every stage of your child's academic journey is planned, tracked, and optimized at ARK's coaching centre in Chennai. Small batches of 15-20 students ensure personalised attention for every learner.</p>
                             <div className="flex flex-wrap gap-3">
                                 <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-8 py-6 rounded-full" onClick={() => window.location.href = "/"}>Book Free Assessment <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" /></Button>
-                                <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors"><Phone className="w-4 h-4" /> +91 76393 99217</a>
+                                <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors"><Phone className="w-4 h-4" /> {CONTACT_DETAILS.displayPhoneNumber}</a>
                             </div>
                         </motion.div>
                     </div>

@@ -8,6 +8,7 @@ import WhatsAppSticky from "@/components/ark/WhatsAppSticky";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import SEOHead from "@/components/SEOHead";
 import { BreadcrumbSchema, LocalBusinessSchema, EducationalOrgSchema } from "@/components/SchemaMarkup";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const coreValues = [
   { icon: Shield, title: "Discipline Creates Destiny", desc: "At ARK, discipline is not a rule — it's a culture. We believe that structured habits, accountability, and consistency are the true foundations of academic excellence. Every student is held to the highest standards of attendance, effort, and integrity." },
@@ -81,8 +82,8 @@ export default function AboutPage() {
                   <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-8 py-6 rounded-full" onClick={() => window.location.href = "/"}>
                     Book Free Assessment <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </Button>
-                  <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors">
-                    <Phone className="w-4 h-4" /> +91 76393 99217
+                  <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors">
+                    <Phone className="w-4 h-4" /> {CONTACT_DETAILS.displayPhoneNumber}
                   </a>
                 </div>
               </motion.div>
@@ -255,7 +256,7 @@ export default function AboutPage() {
               <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-10 py-6 text-lg rounded-full" onClick={() => window.location.href = "/"}>
                 Book Free Assessment <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-              <a href="https://wa.me/917639399217" className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp Us</a>
+              <a href={CONTACT_DETAILS.whatsappLink} className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp Us</a>
             </div>
             <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/50 text-sm">
               <Link to="/results-achievements" className="hover:text-[#FFC107]">Our Results →</Link>

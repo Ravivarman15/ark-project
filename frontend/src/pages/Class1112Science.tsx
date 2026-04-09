@@ -10,6 +10,7 @@ import SEOHead from "@/components/SEOHead";
 import { BreadcrumbSchema, FAQPageSchema, LocalBusinessSchema } from "@/components/SchemaMarkup";
 import { faqCategories } from "@/data/faqData";
 import { useState } from "react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const faqs = [...(faqCategories.find(c => c.id === "tuition")?.faqs.slice(2, 6) ?? []), ...(faqCategories.find(c => c.id === "neet")?.faqs.slice(4, 8) ?? [])];
 
@@ -46,7 +47,7 @@ export default function Class1112Page() {
                             <p className="text-white/60 leading-relaxed mb-8">Expert faculty, small focused batches, weekly chapter-wise tests, and monthly full-length mock exams ensure that every Class 11 and 12 student at ARK is prepared not just for board exams but for the competitive challenges ahead. Our students in Chennai consistently achieve 95%+ in boards while simultaneously qualifying for NEET.</p>
                             <div className="flex flex-wrap gap-3">
                                 <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-8 py-6 rounded-full" onClick={() => window.location.href = "/"}>Book Free Assessment <ArrowRight className="ml-2 w-4 h-4" /></Button>
-                                <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold"><Phone className="w-4 h-4" /> +91 76393 99217</a>
+                                <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold"><Phone className="w-4 h-4" /> {CONTACT_DETAILS.displayPhoneNumber}</a>
                             </div>
                         </motion.div>
                     </div>

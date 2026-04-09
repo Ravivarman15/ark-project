@@ -4,6 +4,7 @@ import { ArrowRight, Phone, MessageCircle, Loader2, CheckCircle2, Mail, AlertCir
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const programs = [
   "NEET Coaching (Class 11–12)",
@@ -114,7 +115,7 @@ export default function LeadFormSection() {
       setSubmitted(true);
     } catch {
       // Network error, server down, CORS, etc. — always friendly message
-      setServerError("Unable to submit right now. Please try again shortly or call us at +91 76393 99217.");
+      setServerError(`Unable to submit right now. Please try again shortly or call us at ${CONTACT_DETAILS.displayPhoneNumber}.`);
     } finally {
       setSubmitting(false);
     }
@@ -169,14 +170,14 @@ export default function LeadFormSection() {
 
             <div className="flex flex-wrap gap-4">
               <a
-                href="tel:+917639399217"
+                href={`tel:${CONTACT_DETAILS.callPhoneNumber}`}
                 className="flex items-center gap-2 text-ark-navy border-2 border-ark-navy px-5 py-3 rounded-xl font-semibold hover:bg-ark-navy hover:text-white transition-colors"
               >
                 <Phone className="w-5 h-5" />
                 Call Now
               </a>
               <a
-                href="https://wa.me/917639399217?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20academic%20assessment%20for%20my%20child."
+                href={`${CONTACT_DETAILS.whatsappLink}?text=Hi%2C%20I%27d%20like%20to%20book%20a%20free%20academic%20assessment%20for%20my%20child.`}
                 className="flex items-center gap-2 text-white bg-green-500 px-5 py-3 rounded-xl font-semibold hover:bg-green-600 transition-colors"
               >
                 <MessageCircle className="w-5 h-5" />

@@ -4,6 +4,7 @@ import { Menu, X, Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import arkLogo from "@/assets/ark-logo.jpeg";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const navLinks = [
   { label: "Home", href: "/" },
@@ -122,11 +123,11 @@ export default function Navbar() {
           {/* Desktop CTAs */}
           <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0">
             <a
-              href="tel:+917639399217"
+              href={`tel:${CONTACT_DETAILS.callPhoneNumber}`}
               className="hidden xl:flex items-center gap-2 text-white/80 hover:text-ark-yellow text-sm transition-colors"
             >
               <Phone className="w-4 h-4" />
-              <span>+91 76393 99217</span>
+              <span>{CONTACT_DETAILS.displayPhoneNumber}</span>
             </a>
             <a
               href="https://ark-learning-hub.vercel.app"
@@ -195,18 +196,18 @@ export default function Navbar() {
                     Partner With ARK
                   </a>
                   <a
-                    href="https://wa.me/917639399217?text=Hi%2C%20I%20found%20ARK%20Learning%20Arena%20online.%20I%27d%20like%20to%20know%20more%20about%20your%20programs."
+                    href={`${CONTACT_DETAILS.whatsappLink}?text=Hi%2C%20I%20found%20ARK%20Learning%20Arena%20online.%20I%27d%20like%20to%20know%20more%20about%20your%20programs.`}
                     className="flex items-center justify-center gap-2 py-3 rounded-xl border border-green-400 text-green-400 font-medium"
                   >
                     <MessageCircle className="w-5 h-5" />
                     WhatsApp Us
                   </a>
                   <a
-                    href="tel:+917639399217"
+                    href={`tel:${CONTACT_DETAILS.callPhoneNumber}`}
                     className="flex items-center justify-center gap-2 py-3 text-white/80 font-medium"
                   >
                     <Phone className="w-5 h-5 text-ark-yellow" />
-                    +91 76393 99217
+                    {CONTACT_DETAILS.displayPhoneNumber}
                   </a>
                 </div>
               </div>
@@ -218,7 +219,7 @@ export default function Navbar() {
       {/* Mobile sticky bottom CTA */}
       <div className="mobile-cta-sticky lg:hidden bg-ark-navy border-t border-white/10 flex">
         <a
-          href="tel:+917639399217"
+          href={`tel:${CONTACT_DETAILS.callPhoneNumber}`}
           className="flex-1 flex items-center justify-center gap-2 py-3 text-white font-semibold text-sm border-r border-white/10"
         >
           <Phone className="w-4 h-4 text-ark-yellow" />

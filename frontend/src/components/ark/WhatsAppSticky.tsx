@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle } from "lucide-react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 export default function WhatsAppSticky() {
   const [visible, setVisible] = useState(false);
@@ -46,7 +47,7 @@ export default function WhatsAppSticky() {
           </AnimatePresence>
 
           <a
-            href="https://wa.me/917639399217?text=Hi%20ARK%20Learning%20Arena%2C%20I%27d%20like%20to%20know%20more%20about%20your%20programs."
+            href={`${CONTACT_DETAILS.whatsappLink}?text=Hi%20ARK%20Learning%20Arena%2C%20I%27d%20like%20to%20know%20more%20about%20your%20programs.`}
             target="_blank"
             rel="noopener noreferrer"
             onMouseEnter={() => setShowTooltip(true)}

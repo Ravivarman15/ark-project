@@ -18,6 +18,7 @@ import WhatsAppSticky from "@/components/ark/WhatsAppSticky";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import SEOHead from "@/components/SEOHead";
 import { BreadcrumbSchema } from "@/components/SchemaMarkup";
+import { CONTACT_DETAILS } from "@/config/contact";
 import {
   cultureCategories,
   highlightCards,
@@ -259,7 +260,7 @@ function CultureMotionHero() {
                     Explore Campus <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                   <a
-                    href="https://wa.me/917639399217"
+                    href={CONTACT_DETAILS.whatsappLink}
                     className="flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 border border-white/20 backdrop-blur-md text-white px-8 py-4 rounded-full font-bold transition-all text-lg"
                   >
                     <MessageCircle className="w-5 h-5 text-green-400" />
@@ -707,18 +708,18 @@ export default function ArkCulturePage() {
                   <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 <a
-                  href="https://wa.me/917639399217?text=Hi%2C%20I%20saw%20ARK%20Culture%20page%20and%20want%20to%20know%20more."
+                  href={`${CONTACT_DETAILS.whatsappLink}?text=Hi%2C%20I%20saw%20ARK%20Culture%20page%20and%20want%20to%20know%20more.`}
                   className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-5 sm:px-8 py-3 sm:py-4 rounded-full font-semibold transition-colors text-sm sm:text-base"
                 >
                   <MessageCircle className="w-4 h-4 sm:w-5 sm:h-5" />
                   WhatsApp Us
                 </a>
                 <a
-                  href="tel:+917639399217"
+                  href={`tel:${CONTACT_DETAILS.callPhoneNumber}`}
                   className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-5 sm:px-6 py-3 rounded-full font-semibold transition-colors text-sm sm:text-base"
                 >
                   <Phone className="w-4 h-4" />
-                  +91 76393 99217
+                  {CONTACT_DETAILS.displayPhoneNumber}
                 </a>
               </div>
             </motion.div>

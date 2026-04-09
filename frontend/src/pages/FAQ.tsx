@@ -11,6 +11,7 @@ import { faqCategories, allFAQs } from "@/data/faqData";
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 export default function FAQPage() {
     const [activeCategory, setActiveCategory] = useState("all");
@@ -94,7 +95,7 @@ export default function FAQPage() {
                             <p className="text-muted-foreground mb-6">Our admissions counsellors are ready to help. Contact us or book a free consultation.</p>
                             <div className="flex flex-wrap justify-center gap-3">
                                 <Button className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow rounded-full px-8" onClick={() => window.location.href = "/"}>Book Free Assessment <ArrowRight className="ml-2 w-4 h-4" /></Button>
-                                <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-[#0B2C55] text-[#0B2C55] font-semibold px-6 py-2 rounded-full hover:bg-[#0B2C55] hover:text-white transition-colors">Call +91 76393 99217</a>
+                                <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-[#0B2C55] text-[#0B2C55] font-semibold px-6 py-2 rounded-full hover:bg-[#0B2C55] hover:text-white transition-colors">Call {CONTACT_DETAILS.displayPhoneNumber}</a>
                             </div>
                         </div>
                     </div>

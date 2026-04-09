@@ -11,6 +11,7 @@ import { BreadcrumbSchema, FAQPageSchema, LocalBusinessSchema } from "@/componen
 import { faqCategories } from "@/data/faqData";
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
+import { CONTACT_DETAILS } from "@/config/contact";
 
 const neetFaqs = faqCategories.find(c => c.id === "neet")?.faqs.slice(0, 10) ?? [];
 
@@ -78,8 +79,8 @@ export default function NEETCoachingPage() {
                                     <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-8 py-6 rounded-full" onClick={() => document.getElementById("lead-form")?.scrollIntoView({ behavior: "smooth" })}>
                                         Book Free Assessment <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                     </Button>
-                                    <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors">
-                                        <Phone className="w-4 h-4" /> +91 76393 99217
+                                    <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-6 py-3 rounded-full font-semibold transition-colors">
+                                        <Phone className="w-4 h-4" /> {CONTACT_DETAILS.displayPhoneNumber}
                                     </a>
                                 </div>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
@@ -240,8 +241,8 @@ export default function NEETCoachingPage() {
                             <Button size="lg" className="bg-[#FFC107] text-[#0B2C55] font-bold hover:bg-[#ffd133] shadow-yellow group px-10 py-6 text-lg rounded-full" onClick={() => window.location.href = "/"}>
                                 Book Free Assessment <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </Button>
-                            <a href="tel:+917639399217" className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-8 py-4 rounded-full font-semibold transition-colors"><Phone className="w-5 h-5" /> Call Now</a>
-                            <a href="https://wa.me/917639399217?text=Hi%2C%20I%27m%20interested%20in%20NEET%20coaching%20at%20ARK%20Chennai." className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp</a>
+                            <a href={`tel:${CONTACT_DETAILS.callPhoneNumber}`} className="flex items-center gap-2 border-2 border-white/30 hover:border-white px-8 py-4 rounded-full font-semibold transition-colors"><Phone className="w-5 h-5" /> Call Now</a>
+                            <a href={`${CONTACT_DETAILS.whatsappLink}?text=Hi%2C%20I%27m%20interested%20in%20NEET%20coaching%20at%20ARK%20Chennai.`} className="flex items-center gap-2 border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-white px-8 py-4 rounded-full font-semibold transition-colors"><MessageCircle className="w-5 h-5" /> WhatsApp</a>
                         </div>
                         <div className="mt-8 flex flex-wrap justify-center gap-6 text-white/50 text-sm">
                             <Link to="/class-11-12-science-coaching" className="hover:text-[#FFC107] transition-colors">Class 11-12 Science →</Link>
