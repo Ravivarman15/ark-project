@@ -38,7 +38,7 @@ const heroScenes = [
   {
     image: scene1,
     title: "Welcome to ARK Learning Arena",
-    subtitle: "Where discipline meets direction. Enter a world of focused excellence.",
+    subtitle: "Enter a world of focused excellence.",
     accent: "ARK",
     accentWord: "Arena"
   },

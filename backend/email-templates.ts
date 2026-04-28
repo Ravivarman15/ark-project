@@ -82,9 +82,6 @@ export function getUserWelcomeEmail(data: LeadData): { subject: string; html: st
         <h1 style="margin:0;color:${COLORS.white};font-size:22px;font-weight:800;letter-spacing:0.5px;">
           ARK Learning Arena
         </h1>
-        <p style="margin:4px 0 0;color:${COLORS.yellow};font-size:11px;letter-spacing:2px;text-transform:uppercase;font-weight:600;">
-          Where Discipline Meets Direction
-        </p>
       </td>
     </tr>
 

@@ -83,7 +83,6 @@ export default function Navbar() {
             />
             <div className="min-w-0">
               <div className="text-white font-bold text-sm lg:text-lg leading-tight truncate">ARK Learning Arena</div>
-              <div className="text-ark-yellow text-[10px] lg:text-xs font-medium tracking-wider">DISCIPLINE MEETS DIRECTION</div>
             </div>
           </Link>
 

@@ -40,7 +40,6 @@ export default function Footer() {
               <img src={arkLogo} alt="ARK Learning Arena Logo" className="w-12 h-12 rounded-xl object-cover shadow-yellow" />
               <div>
                 <div className="text-white font-black text-lg">ARK Learning Arena</div>
-                <div className="text-ark-yellow text-xs tracking-wider">WHERE DISCIPLINE MEETS DIRECTION</div>
               </div>
             </Link>
             <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-xs">
