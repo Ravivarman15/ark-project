@@ -1,70 +1,66 @@
 import { motion } from "framer-motion";
-import founderImg from "@/assets/founder.jpg";
 
 export default function FounderSection() {
   return (
     <section className="section-padding bg-muted/20">
       <div className="container-ark">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          {/* Image */}
+        <div className="max-w-4xl mx-auto">
+          {/* Content Card */}
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-            className="relative"
+            transition={{ duration: 0.8 }}
+            className="bg-white rounded-[2.5rem] p-8 md:p-16 shadow-xl border border-ark-yellow/10 relative overflow-hidden text-center"
           >
-            <div className="relative rounded-3xl overflow-hidden max-w-md mx-auto lg:mx-0">
-              <img
-                src={founderImg}
-                alt="ARK Founder"
-                className="w-full object-cover"
-                style={{ maxHeight: "480px" }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ark-navy/60 to-transparent" />
-              <div className="absolute bottom-6 left-6">
-                <div className="text-white font-black text-xl">Prathiba Ma'am</div>
-                <div className="text-ark-yellow text-sm font-semibold">Founder & Academic Director, ARK</div>
-              </div>
-            </div>
-          </motion.div>
+            {/* Decorative background element */}
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-ark-yellow/5 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-ark-navy/5 rounded-full blur-3xl" />
 
-          {/* Content */}
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
-          >
-            <span className="text-ark-yellow text-sm font-semibold tracking-widest uppercase bg-ark-yellow/10 px-4 py-2 rounded-full">
-              Founder's Vision
-            </span>
-            <blockquote className="text-3xl md:text-4xl font-black text-ark-navy mt-6 mb-6 leading-tight">
-              "Discipline creates destiny.
-              <br />
-              <span className="text-ark-yellow">Structure creates success."</span>
-            </blockquote>
-            <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-              ARK was built on a simple belief: every child is capable of extraordinary results when given the right system, the right mentors, and the right environment.
-            </p>
-            <p className="text-muted-foreground leading-relaxed mb-6">
-              After years of working within mainstream education and seeing talented students fail not because of intelligence but due to lack of structure — ARK was born. Not as another coaching centre, but as a complete academic ecosystem.
-            </p>
-            <p className="text-muted-foreground leading-relaxed mb-8">
-              Our model is built on three pillars: <strong className="text-ark-navy">Discipline</strong>, <strong className="text-ark-navy">Systems</strong>, and <strong className="text-ark-navy">Accountability</strong>. These are not just values — they are engineered into every aspect of how ARK operates.
-            </p>
+            <div className="relative z-10">
+              <span className="text-ark-yellow text-sm font-semibold tracking-widest uppercase bg-ark-yellow/10 px-6 py-2 rounded-full">
+                Founder's Vision
+              </span>
+              
+              <blockquote className="text-3xl md:text-5xl font-black text-ark-navy mt-10 mb-8 leading-tight italic">
+                "Discipline creates destiny.
+                <br />
+                <span className="text-ark-yellow">Structure creates success."</span>
+              </blockquote>
 
-            <div className="grid grid-cols-3 gap-4">
-              {[
-                { val: "Discipline", icon: "⚡" },
-                { val: "Consistency", icon: "🎯" },
-                { val: "Accountability", icon: "📊" },
-              ].map((v) => (
-                <div key={v.val} className="bg-white rounded-xl p-4 text-center shadow-card">
-                  <div className="text-2xl mb-2">{v.icon}</div>
-                  <div className="text-ark-navy font-bold text-sm">{v.val}</div>
+              <div className="max-w-2xl mx-auto">
+                <p className="text-muted-foreground text-lg md:text-xl leading-relaxed mb-8 font-medium">
+                  ARK was built on a simple belief: every child is capable of extraordinary results when given the right system, the right mentors, and the right environment.
+                </p>
+                
+                <div className="space-y-6 text-muted-foreground leading-relaxed mb-12">
+                  <p>
+                    After years of working within mainstream education and seeing talented students fail not because of intelligence but due to lack of structure — ARK was born. Not as another coaching centre, but as a complete academic ecosystem.
+                  </p>
+                  <p>
+                    Our model is built on three pillars: <strong className="text-ark-navy">Discipline</strong>, <strong className="text-ark-navy">Systems</strong>, and <strong className="text-ark-navy">Accountability</strong>. These are not just values — they are engineered into every aspect of how ARK operates.
+                  </p>
                 </div>
-              ))}
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    { val: "Discipline", icon: "⚡", desc: "Engineered Routine" },
+                    { val: "Consistency", icon: "🎯", desc: "Daily Progress" },
+                    { val: "Accountability", icon: "📊", desc: "Data-Driven results" },
+                  ].map((v) => (
+                    <div key={v.val} className="bg-muted/30 rounded-2xl p-6 text-center border border-transparent hover:border-ark-yellow/30 transition-all duration-300">
+                      <div className="text-3xl mb-3">{v.icon}</div>
+                      <div className="text-ark-navy font-bold text-lg mb-1">{v.val}</div>
+                      <div className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">{v.desc}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-16 pt-8 border-t border-muted">
+                  <div className="text-ark-navy font-black text-2xl">Prathiba Ma'am</div>
+                  <div className="text-ark-yellow text-sm font-bold tracking-wide uppercase mt-1">Founder & Academic Director, ARK</div>
+                </div>
+              </div>
             </div>
           </motion.div>
         </div>

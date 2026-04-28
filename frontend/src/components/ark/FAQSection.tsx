@@ -29,7 +29,7 @@ const faqs = [
   },
   {
     q: "Do you have a Franchise opportunity?",
-    a: "Yes, ARK offers franchise opportunities with three models — Flagship (₹22L), Studio (₹13L), and POD (₹7L). Each comes with full training, academic support, brand usage rights, and ongoing mentorship. Contact us for a detailed franchise prospectus.",
+    a: "Yes, ARK offers franchise opportunities with three models — Flagship, Studio, and POD. Each comes with full training, academic support, brand usage rights, and ongoing mentorship. Contact us for a detailed franchise prospectus.",
   },
 ];
 
