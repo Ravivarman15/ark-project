@@ -5,6 +5,7 @@ import {
   GraduationCap,
   MapPin,
   Trophy,
+  Sparkles,
 } from "lucide-react";
 
 export interface CultureItem {
@@ -20,6 +21,7 @@ export interface CultureCategory {
   description: string;
   icon: typeof Building2;
   items: CultureItem[];
+  hideInNav?: boolean;
 }
 
 export interface HighlightCard {
@@ -226,24 +228,82 @@ export const cultureCategories: CultureCategory[] = [
     ],
   },
   {
-    id: "achievements-activities",
-    category: "Achievements & Activities",
+    id: "academic-results",
+    category: "Academic Results",
     description:
-      "From NEET qualifiers to board exam toppers, from quiz champions to science fair winners — ARK students consistently prove that discipline creates destiny.",
+      "Consistent excellence across NEET and Board examinations. Our students don't just pass; they dominate with high distinctions and medical seat placements.",
     icon: Trophy,
+    hideInNav: true,
     items: [
       {
         type: "image",
-        url: "https://images.unsplash.com/photo-1567168544230-b57c3236e2b1?w=800&q=80",
-        title: "NEET Success Stories",
-        description: "Students celebrating NEET qualification with 80% success rate",
+        url: "https://images.unsplash.com/photo-1523240682765-9666f3691172?w=800&q=80",
+        title: "NEET Top Rankers",
+        description: "Our star performers who secured high ranks in NEET 2023",
       },
       {
         type: "image",
-        url: "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=800&q=80",
-        title: "Board Exam Toppers",
-        description: "Consistent 95%+ distinction rate across all board examinations",
+        url: "https://images.unsplash.com/photo-1543269865-cbf427effbad?w=800&q=80",
+        title: "Medical Seat Achievers",
+        description: "Students who successfully joined Government Medical Colleges",
       },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=800&q=80",
+        title: "12th Board Toppers",
+        description: "Consistent 480+ scorers in State and CBSE Board Exams",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=800&q=80",
+        title: "Chemistry Distinction",
+        description: "Celebrating 95+ marks in Chemistry by 40% of the batch",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800&q=80",
+        title: "Biology Excellence",
+        description: "Top scorers in Biology who paved their way to medical excellence",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?w=800&q=80",
+        title: "Physics Mastery",
+        description: "Overcoming the toughest subject with structured learning",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&q=80",
+        title: "10th Grade Success",
+        description: "Building strong foundations with 100% first-class results",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1511629091441-ee461463a2cd?w=800&q=80",
+        title: "Batch of 2023",
+        description: "The proud graduates of ARK Learning Arena",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=800&q=80",
+        title: "Parent-Teacher Pride",
+        description: "Celebrating success stories with the ARK family",
+      },
+      {
+        type: "image",
+        url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&q=80",
+        title: "Scholarship Winners",
+        description: "Recognizing talent through academic scholarships",
+      },
+    ],
+  },
+  {
+    id: "achievements-activities",
+    category: "Activities & Wins",
+    description:
+      "Beyond the books — ARK students excel in sports, quizzes, and innovative projects, showcasing their all-round development.",
+    icon: Sparkles,
+    items: [
       {
         type: "image",
         url: "https://images.unsplash.com/photo-1513258496099-48168024aec0?w=800&q=80",

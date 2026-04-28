@@ -592,7 +592,7 @@ export default function ArkCulturePage() {
         {/* ── Quick Category Nav ── */}
         <div className="bg-white border-b border-gray-100 sticky top-[72px] z-40 overflow-x-auto scrollbar-none shadow-sm">
           <div className="container-ark py-4 flex gap-4 min-w-max">
-            {cultureCategories.map((cat) => (
+            {cultureCategories.filter(cat => !cat.hideInNav).map((cat) => (
               <a
                 key={cat.id}
                 href={`#${cat.id}`}
