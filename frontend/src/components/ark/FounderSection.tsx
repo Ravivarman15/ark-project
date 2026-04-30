@@ -57,8 +57,8 @@ export default function FounderSection() {
                 </div>
 
                 <div className="mt-16 pt-8 border-t border-muted">
-                  <div className="text-ark-navy font-black text-2xl">Prathiba Ma'am</div>
-                  <div className="text-ark-yellow text-sm font-bold tracking-wide uppercase mt-1">Founder & Academic Director, ARK</div>
+                  <div className="text-ark-navy font-black text-2xl">Prathiba R. Augustine</div>
+                  <div className="text-ark-yellow text-sm font-bold tracking-wide uppercase mt-1">Managing Partner & Academics Head</div>
                 </div>
               </div>
             </div>
