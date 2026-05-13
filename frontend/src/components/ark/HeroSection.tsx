@@ -229,7 +229,7 @@ export default function HeroSection() {
            width, content inside the poster)
       ══════════════════════════════════════ */}
       <div className="bg-[#0B2C55] w-full">
-        <div className="max-w-[1100px] mx-auto px-3 sm:px-5 lg:px-8 pt-4 pb-0">
+        <div className="max-w-[1200px] mx-auto px-3 sm:px-5 lg:px-8 pt-4 pb-0">
           <div
             className="relative w-full h-[320px] sm:h-[380px] md:h-[320px] lg:h-[500px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
             onMouseEnter={() => setPaused(true)}
