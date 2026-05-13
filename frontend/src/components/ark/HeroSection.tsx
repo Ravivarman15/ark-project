@@ -17,13 +17,15 @@ import { Button } from "@/components/ui/button";
 import poster1 from "@/assets/poster_1.png";
 import poster2 from "@/assets/poster_2.png";
 import studentImg from "@/assets/student-cutout.png";
+import banner1 from "@/assets/culture/banner1.jpeg";
+import banner2 from "@/assets/culture/banner2.jpeg";
+import banner3 from "@/assets/culture/banner3.jpeg";
 import { programDetails } from "@/data/programDetails";
 
 /* ─── Poster slides ─── */
 const posterSlides = [
-  { id: "p1", image: "/assets/culture/banner1.jpeg", alt: "New Banner 1" },
-  { id: "p2", image: "/assets/culture/banner3.jpeg", alt: "New Banner 2" },
-  { id: "p3", image: "/assets/culture/banner2.jpeg", alt: "New Banner 3" },
+  { id: "p1", image: banner1, alt: "New Banner 1" },
+  { id: "p3", image: banner2, alt: "New Banner 3" },
 ];
 
 
