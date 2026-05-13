@@ -233,7 +233,7 @@ export default function HeroSection() {
       <div className="bg-[#0B2C55] w-full">
         <div className="max-w-[1200px] mx-auto px-3 sm:px-5 lg:px-8 pt-4 pb-0">
           <div
-            className="relative w-full h-[280px] sm:h-[380px] md:h-[320px] lg:h-[500px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
+            className="relative w-full h-[250px] sm:h-[380px] md:h-[320px] lg:h-[500px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onTouchStart={e => setTouchX(e.targetTouches[0].clientX)}
