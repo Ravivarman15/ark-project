@@ -21,9 +21,11 @@ import { programDetails } from "@/data/programDetails";
 
 /* ─── Poster slides ─── */
 const posterSlides = [
-  { id: "p1", image: poster1, alt: "ARK – Nestlings Program" },
-  { id: "p2", image: poster2, alt: "ARK – NEET Crash Course" },
+  { id: "p1", image: "/assets/culture/banner1.jpeg", alt: "New Banner 1" },
+  { id: "p2", image: "/assets/culture/banner3.jpeg", alt: "New Banner 2" },
+  { id: "p3", image: "/assets/culture/banner2.jpeg", alt: "New Banner 3" },
 ];
+
 
 /* ─── Stats & Checks (used in content section below) ─── */
 const stats = [
@@ -229,7 +231,7 @@ export default function HeroSection() {
       <div className="bg-[#0B2C55] w-full">
         <div className="max-w-[1100px] mx-auto px-3 sm:px-5 lg:px-8 pt-4 pb-0">
           <div
-            className="relative w-full h-[220px] sm:h-[220px] md:h-[300px] lg:h-[350px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
+            className="relative w-full h-[320px] sm:h-[380px] md:h-[320px] lg:h-[500px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onTouchStart={e => setTouchX(e.targetTouches[0].clientX)}
