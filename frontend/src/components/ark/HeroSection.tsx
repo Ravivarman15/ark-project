@@ -1,5 +1,6 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ChevronLeft,
   ChevronRight,
@@ -12,22 +13,19 @@ import {
   Zap,
   CheckCircle2,
   ArrowRight,
+  ArrowUpRight,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import poster1 from "@/assets/poster_1.png";
-import poster2 from "@/assets/poster_2.png";
 import studentImg from "@/assets/student-cutout.png";
 import banner1 from "@/assets/culture/banner1.jpeg";
 import banner2 from "@/assets/culture/banner2.jpeg";
-import banner3 from "@/assets/culture/banner3.jpeg";
 import { programDetails } from "@/data/programDetails";
 
 /* ─── Poster slides ─── */
 const posterSlides = [
-  { id: "p1", image: banner1, alt: "New Banner 1" },
-  { id: "p3", image: banner2, alt: "New Banner 3" },
+  { id: "p1", image: banner1, alt: "ARK Learning Arena — Banner 1" },
+  { id: "p2", image: banner2, alt: "ARK Learning Arena — Banner 2" },
 ];
-
 
 /* ─── Stats & Checks (used in content section below) ─── */
 const stats = [
@@ -43,16 +41,67 @@ const checks = [
   "NCERT-Based Curriculum",
 ];
 
-/* ─── Per-program card colors + icon (Vedantu pastel style) ─── */
-const programMeta: Record<string, { Icon: React.ElementType; bg: string; iconColor: string }> = {
-  "ark-nestlings": { Icon: Users, bg: "#EEF0FF", iconColor: "#5C6BC0" },
-  "ark-tuition": { Icon: BookOpen, bg: "#FFF8E1", iconColor: "#F9A825" },
-  "board-exam-prep": { Icon: Target, bg: "#E0F7EF", iconColor: "#2E7D52" },
-  "neet-coaching": { Icon: GraduationCap, bg: "#FFEBF0", iconColor: "#C2185B" },
-  "neet-foundation": { Icon: Star, bg: "#FFF3E0", iconColor: "#E65100" },
-  "repeaters-batch": { Icon: Zap, bg: "#F3EEFF", iconColor: "#6A1B9A" },
+/* ─── Per-program meta: icon, vivid gradient, route, short label ─── */
+const programMeta: Record<
+  string,
+  {
+    Icon: React.ElementType;
+    gradient: string; // CSS background
+    shadow: string;   // CSS box-shadow color
+    href: string;
+    short: string;    // optional shorter heading (kept fallback to title)
+  }
+> = {
+  "ark-nestlings": {
+    Icon: Users,
+    gradient: "linear-gradient(135deg, #6E7BFF 0%, #4A5BD9 100%)",
+    shadow: "rgba(74,91,217,0.45)",
+    href: "/#nestlings",
+    short: "ARK Nestlings",
+  },
+  "ark-tuition": {
+    Icon: BookOpen,
+    gradient: "linear-gradient(135deg, #FFC661 0%, #F08F00 100%)",
+    shadow: "rgba(240,143,0,0.45)",
+    href: "/tuition-centre-in-chennai",
+    short: "ARK Tuition",
+  },
+  "board-exam-prep": {
+    Icon: Target,
+    gradient: "linear-gradient(135deg, #3BCB95 0%, #1F8E68 100%)",
+    shadow: "rgba(31,142,104,0.45)",
+    href: "/class-6-10-tuition",
+    short: "Board Exam Prep",
+  },
+  "neet-coaching": {
+    Icon: GraduationCap,
+    gradient: "linear-gradient(135deg, #FF6B9C 0%, #B5174D 100%)",
+    shadow: "rgba(181,23,77,0.45)",
+    href: "/neet-coaching-in-chennai",
+    short: "NEET Coaching",
+  },
+  "neet-foundation": {
+    Icon: Star,
+    gradient: "linear-gradient(135deg, #FFA94D 0%, #DC5A00 100%)",
+    shadow: "rgba(220,90,0,0.45)",
+    href: "/class-11-12-science-coaching",
+    short: "NEET Foundation",
+  },
+  "repeaters-batch": {
+    Icon: Zap,
+    gradient: "linear-gradient(135deg, #A78BFA 0%, #6233C5 100%)",
+    shadow: "rgba(98,51,197,0.45)",
+    href: "/neet-coaching-in-chennai",
+    short: "Repeaters Batch",
+  },
 };
-const defaultMeta = { Icon: Award, bg: "#F5F5F5", iconColor: "#0B2C55" };
+const defaultMeta = {
+  Icon: Award,
+  gradient: "linear-gradient(135deg, #475569 0%, #0B2C55 100%)",
+  shadow: "rgba(11,44,85,0.45)",
+  href: "/",
+  short: "Program",
+};
 
 /* ══════════════════════════════════════════════
    ANIMATED COUNTER
@@ -89,13 +138,13 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 }
 
 /* ══════════════════════════════════════════════
-   POPULAR PROGRAMS — Vedantu exact card style
-   (icon top-center, name + arrow bottom)
+   POPULAR PROGRAMS — vivid gradient carousel
 ══════════════════════════════════════════════ */
 function PopularProgramCards() {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canL, setCanL] = useState(false);
   const [canR, setCanR] = useState(true);
+  const navigate = useNavigate();
 
   const sync = () => {
     const el = scrollRef.current;
@@ -115,85 +164,172 @@ function PopularProgramCards() {
     };
   }, []);
 
-  const scroll = (d: "l" | "r") =>
-    scrollRef.current?.scrollBy({ left: d === "l" ? -180 : 180, behavior: "smooth" });
+  const scroll = (d: "l" | "r") => {
+    const el = scrollRef.current;
+    if (!el) return;
+    const card = el.querySelector<HTMLElement>("[data-program-card]");
+    const step = card ? card.offsetWidth + 14 : 190;
+    el.scrollBy({ left: d === "l" ? -step : step, behavior: "smooth" });
+  };
 
   const programs = Object.values(programDetails);
+
+  const handleClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    if (href.startsWith("/#")) {
+      e.preventDefault();
+      const id = href.slice(2);
+      if (window.location.pathname === "/") {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        setTimeout(
+          () => document.getElementById(id)?.scrollIntoView({ behavior: "smooth" }),
+          320,
+        );
+      }
+    }
+  };
 
   const NavArrow = ({ d, dis }: { d: "l" | "r"; dis: boolean }) => (
     <button
       onClick={() => scroll(d)}
       disabled={dis}
-      aria-label={d === "l" ? "Scroll left" : "Scroll right"}
-      className={`flex-shrink-0 self-center w-7 h-7 rounded-full border-2 flex items-center justify-center
+      aria-label={d === "l" ? "Scroll programs left" : "Scroll programs right"}
+      className={`hidden sm:flex flex-shrink-0 w-9 h-9 rounded-full items-center justify-center
         transition-all duration-200
         ${!dis
-          ? "border-gray-300 text-gray-500 hover:border-gray-400 hover:bg-gray-50"
-          : "border-gray-200 text-gray-300 cursor-not-allowed"}`}
+          ? "bg-[#0B2C55] text-white hover:bg-[#FFC107] hover:text-[#0B2C55] hover:scale-105 active:scale-95 shadow-md"
+          : "bg-gray-100 text-gray-300 cursor-not-allowed"}`}
     >
-      {d === "l" ? <ChevronLeft size={14} /> : <ChevronRight size={14} />}
+      {d === "l" ? <ChevronLeft size={16} /> : <ChevronRight size={16} />}
     </button>
   );
 
   return (
-    /* The whole card — white, rounded, overlaps bottom of poster via negative top margin */
-    <div className="bg-white rounded-2xl shadow-[0_8px_48px_rgba(0,0,0,0.13)] border border-gray-100 px-5 pt-4 pb-5">
+    <div className="bg-white rounded-2xl shadow-[0_18px_60px_rgba(11,44,85,0.18)]
+      border border-white px-4 sm:px-5 pt-4 pb-4 sm:pb-5">
 
-      {/* "Popular Programs" yellow badge — exact Vedantu style */}
-      <div className="mb-4">
-        <span className="inline-block bg-[#FFC107] text-[#0B2C55] font-black text-[13px]
-          px-4 py-1.5 rounded-full tracking-wide shadow-sm">
-          Popular Programs
-        </span>
+      {/* Header row */}
+      <div className="flex items-center justify-between mb-3.5 gap-3">
+        <div className="flex items-center gap-2.5">
+          <span className="inline-block bg-[#FFC107] text-[#0B2C55] font-black text-[12px] sm:text-[13px]
+            px-3.5 sm:px-4 py-1.5 rounded-full tracking-wide shadow-sm whitespace-nowrap">
+            Popular Programs
+          </span>
+          <span className="hidden sm:inline text-[12px] text-[#0B2C55]/55 font-semibold">
+            · Tap to explore
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <NavArrow d="l" dis={!canL} />
+          <NavArrow d="r" dis={!canR} />
+        </div>
       </div>
 
-      {/* Row: left arrow | cards | right arrow */}
-      <div className="flex items-center gap-2">
-        <NavArrow d="l" dis={!canL} />
+      {/* Carousel */}
+      <div
+        ref={scrollRef}
+        className="flex gap-3 sm:gap-3.5 overflow-x-auto pb-1 -mx-1 px-1
+          [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]
+          snap-x snap-mandatory scroll-smooth"
+        style={{ WebkitOverflowScrolling: "touch", scrollPaddingLeft: "4px" }}
+      >
+        {programs.map((prog) => {
+          const meta = programMeta[prog.id] ?? defaultMeta;
+          const { Icon, gradient, shadow, href, short } = meta;
+          return (
+            <Link
+              key={prog.id}
+              to={href}
+              data-program-card
+              onClick={(e) => handleClick(e, href)}
+              aria-label={`Open ${prog.title}`}
+              className="group/card relative flex-shrink-0
+                w-[160px] sm:w-[180px] h-[140px] sm:h-[150px]
+                rounded-2xl overflow-hidden
+                snap-start cursor-pointer
+                no-underline
+                transition-all duration-300 ease-out
+                hover:-translate-y-1.5 hover:scale-[1.02]
+                active:scale-[0.97]
+                focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
+                focus-visible:ring-[#FFC107]"
+              style={{
+                background: gradient,
+                boxShadow: `0 10px 24px -6px ${shadow}, 0 2px 6px -2px ${shadow}`,
+                scrollSnapAlign: "start",
+              }}
+            >
+              {/* Decorative giant icon watermark */}
+              <Icon
+                className="absolute -right-3 -bottom-3 text-white/15 pointer-events-none
+                  group-hover/card:scale-110 group-hover/card:rotate-6
+                  transition-transform duration-500 ease-out"
+                style={{ width: 88, height: 88 }}
+                strokeWidth={1.4}
+              />
 
-        {/* Scrollable cards */}
-        <div
-          ref={scrollRef}
-          className="flex gap-3 overflow-x-auto flex-1
-            [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-          style={{ scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch" }}
-        >
-          {programs.map((prog) => {
-            const { Icon, bg, iconColor } = programMeta[prog.id] ?? defaultMeta;
-            return (
-              <div
-                key={prog.id}
-                className="flex-shrink-0 w-[150px] sm:w-[168px] rounded-xl cursor-pointer
-                  group hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
-                style={{ background: bg, scrollSnapAlign: "start" }}
-              >
-                {/* Icon — centered at top */}
-                <div className="flex justify-center pt-4 pb-3 px-3">
-                  <div className="w-10 h-10 rounded-lg bg-white/70 flex items-center justify-center
-                    group-hover:scale-110 transition-transform duration-200 shadow-sm">
-                    <Icon style={{ width: 20, height: 20, color: iconColor }} strokeWidth={1.8} />
-                  </div>
-                </div>
+              {/* Shimmer sweep on hover */}
+              <span
+                className="absolute inset-0 opacity-0 group-hover/card:opacity-100
+                  transition-opacity duration-500 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(115deg, transparent 35%, rgba(255,255,255,0.18) 50%, transparent 65%)",
+                }}
+              />
 
-                {/* Divider */}
-                <div className="h-px bg-black/[0.05] mx-3" />
-
-                {/* Name + arrow — bottom */}
-                <div className="flex items-center justify-between px-3 py-3">
-                  <span className="text-[#0B2C55] text-[12px] font-bold leading-snug line-clamp-2 flex-1 pr-1">
-                    {prog.title}
-                  </span>
-                  <ChevronRight
-                    size={15}
-                    className="flex-shrink-0 text-[#0B2C55]/40 group-hover:text-[#0B2C55] transition-colors"
+              {/* Top: small icon chip */}
+              <div className="absolute top-3 left-3 z-10">
+                <div className="w-9 h-9 rounded-xl bg-white/22 backdrop-blur-[2px]
+                  flex items-center justify-center
+                  border border-white/30 shadow-sm
+                  group-hover/card:bg-white group-hover/card:scale-110
+                  transition-all duration-300">
+                  <Icon
+                    className="w-4 h-4 text-white group-hover/card:text-[#0B2C55]
+                      transition-colors duration-300"
+                    strokeWidth={2.2}
                   />
                 </div>
               </div>
-            );
-          })}
-        </div>
 
-        <NavArrow d="r" dis={!canR} />
+              {/* Bottom: title + arrow */}
+              <div className="absolute inset-x-0 bottom-0 p-3 z-10
+                bg-gradient-to-t from-black/30 via-black/10 to-transparent">
+                <h4 className="text-white text-[13px] sm:text-[14px] font-black leading-tight
+                  drop-shadow-[0_1px_2px_rgba(0,0,0,0.25)] line-clamp-2 mb-1">
+                  {short || prog.title}
+                </h4>
+                <div className="flex items-center justify-between">
+                  <span className="text-white/85 text-[10.5px] font-semibold uppercase tracking-wider">
+                    {prog.ageGroup}
+                  </span>
+                  <span className="w-6 h-6 rounded-full bg-white/22 border border-white/35
+                    flex items-center justify-center
+                    group-hover/card:bg-[#FFC107] group-hover/card:border-[#FFC107]
+                    group-hover/card:translate-x-0.5
+                    transition-all duration-300">
+                    <ArrowUpRight className="w-3 h-3 text-white group-hover/card:text-[#0B2C55]
+                      transition-colors duration-300" strokeWidth={2.5} />
+                  </span>
+                </div>
+              </div>
+            </Link>
+          );
+        })}
+      </div>
+
+      {/* Mobile swipe hint */}
+      <div className="flex sm:hidden items-center justify-center gap-1 mt-2.5">
+        <span className="text-[10px] font-bold text-[#0B2C55]/40 tracking-widest uppercase">
+          Swipe
+        </span>
+        <ChevronRight size={11} className="text-[#0B2C55]/40" />
       </div>
     </div>
   );
@@ -207,6 +343,9 @@ export default function HeroSection() {
   const [paused, setPaused] = useState(false);
   const [touchX, setTouchX] = useState<number | null>(null);
 
+  /* Per-image natural aspect ratios (populated on load) — drives container shape */
+  const [aspects, setAspects] = useState<Record<string, number>>({});
+
   const next = useCallback(() => setSlide(p => (p + 1) % posterSlides.length), []);
   const prev = useCallback(() => setSlide(p => (p === 0 ? posterSlides.length - 1 : p - 1)), []);
 
@@ -215,6 +354,22 @@ export default function HeroSection() {
     const id = setInterval(next, 4500);
     return () => clearInterval(id);
   }, [next, paused]);
+
+  /*
+    SMART RESPONSIVE ASPECT-RATIO
+    The container adopts the active poster's natural aspect ratio,
+    clamped to a sensible range so:
+      - ultra-wide banners don't become tiny on mobile (min 1.4 keeps it tall enough)
+      - portrait posters don't dominate the screen (max 2.4 keeps cinematic feel)
+    Any future image works automatically — no manual CSS tuning needed.
+  */
+  const currentId = posterSlides[slide].id;
+  const naturalAspect = aspects[currentId];
+  const safeAspect = useMemo(() => {
+    if (!naturalAspect) return 1.9;
+    // Mobile-friendly clamp: never narrower than 1.4, never wider than 2.6
+    return Math.min(2.6, Math.max(1.4, naturalAspect));
+  }, [naturalAspect]);
 
   const fadeUp = (delay: number) => ({
     initial: { opacity: 0, y: 22 },
@@ -226,69 +381,122 @@ export default function HeroSection() {
     <section className="relative overflow-x-hidden bg-[#0B2C55] pt-[64px] md:pt-[72px]">
 
       {/* ══════════════════════════════════════
-          1. FULL-WIDTH ROUNDED POSTER SLIDER
-          (Exactly Vedantu: rounded card, full
-           width, content inside the poster)
+          1. ADAPTIVE BANNER SLIDER
+          Container auto-fits the active image's
+          natural aspect ratio (clamped).
+          object-cover everywhere = no letterbox,
+          no empty blue space ever.
       ══════════════════════════════════════ */}
       <div className="bg-[#0B2C55] w-full">
-        <div className="max-w-[1200px] mx-auto px-3 sm:px-5 lg:px-8 pt-4 pb-0">
+        <div className="max-w-[1280px] mx-auto px-3 sm:px-5 lg:px-8 pt-3 sm:pt-4 pb-0">
           <div
-            className="relative w-full h-[250px] sm:h-[380px] md:h-[320px] lg:h-[500px] rounded-2xl overflow-hidden shadow-[0_4px_32px_rgba(0,0,0,0.18)] student-cutout"
+            className="
+              relative w-full overflow-hidden rounded-2xl
+              shadow-[0_8px_40px_rgba(0,0,0,0.28)]
+              ring-1 ring-white/10
+              bg-[#0B2C55]
+            "
+            style={{
+              aspectRatio: safeAspect,
+              maxHeight: "min(70vh, 640px)",
+              minHeight: "220px",
+              transition: "aspect-ratio 350ms ease-out, max-height 350ms ease-out",
+            }}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onTouchStart={e => setTouchX(e.targetTouches[0].clientX)}
             onTouchEnd={e => {
-              if (!touchX) return;
+              if (touchX === null) return;
               const d = touchX - e.changedTouches[0].clientX;
               if (d > 50) next(); else if (d < -50) prev();
               setTouchX(null);
             }}
           >
-            {/* Poster image — full width, natural landscape height */}
+            {/* Sliding poster image */}
             <AnimatePresence mode="wait">
               <motion.div
                 key={posterSlides[slide].id}
-                initial={{ opacity: 0, x: 60 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -60 }}
-                transition={{ duration: 0.42, ease: "easeOut" }}
+                initial={{ opacity: 0, scale: 1.04 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.99 }}
+                transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
                 style={{ position: "absolute", inset: 0 }}
               >
                 <img
                   src={posterSlides[slide].image}
                   alt={posterSlides[slide].alt}
-                  className="w-full h-full object-cover block select-none pointer-events-none"
+                  onLoad={(e) => {
+                    const img = e.currentTarget;
+                    const id = posterSlides[slide].id;
+                    setAspects(prev =>
+                      prev[id] ? prev : { ...prev, [id]: img.naturalWidth / img.naturalHeight }
+                    );
+                  }}
+                  className="w-full h-full object-cover object-center block select-none pointer-events-none"
                   draggable={false}
+                  loading="eager"
+                  decoding="async"
                 />
               </motion.div>
             </AnimatePresence>
 
-            {/* Left arrow */}
-            <button onClick={prev} aria-label="Previous slide"
-              className="absolute left-3 top-1/2 -translate-y-1/2 z-10
-              bg-black/30 hover:bg-[#FFC107] text-white hover:text-[#0B2C55]
-              rounded-full p-2 sm:p-2.5 backdrop-blur-sm
-              transition-all duration-200 hover:scale-110 border border-white/20">
-              <ChevronLeft size={20} />
+            {/* Pre-load remaining slides for instant aspect-ratio resolution */}
+            <div className="hidden">
+              {posterSlides.map((p) => (
+                <img
+                  key={`pre-${p.id}`}
+                  src={p.image}
+                  alt=""
+                  onLoad={(e) => {
+                    const img = e.currentTarget;
+                    setAspects(prev =>
+                      prev[p.id] ? prev : { ...prev, [p.id]: img.naturalWidth / img.naturalHeight }
+                    );
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* Safe-zone gradient for arrow/dot legibility */}
+            <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-black/35 via-black/10 to-transparent pointer-events-none" />
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-black/15 to-transparent pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-black/15 to-transparent pointer-events-none" />
+
+            {/* Arrows */}
+            <button
+              onClick={prev}
+              aria-label="Previous slide"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10
+                bg-white/15 hover:bg-[#FFC107] text-white hover:text-[#0B2C55]
+                rounded-full p-2 sm:p-2.5 backdrop-blur-md
+                transition-all duration-200 hover:scale-110 active:scale-95
+                border border-white/30 shadow-lg"
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
+            </button>
+            <button
+              onClick={next}
+              aria-label="Next slide"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10
+                bg-white/15 hover:bg-[#FFC107] text-white hover:text-[#0B2C55]
+                rounded-full p-2 sm:p-2.5 backdrop-blur-md
+                transition-all duration-200 hover:scale-110 active:scale-95
+                border border-white/30 shadow-lg"
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" strokeWidth={2.5} />
             </button>
 
-            {/* Right arrow */}
-            <button onClick={next} aria-label="Next slide"
-              className="absolute right-3 top-1/2 -translate-y-1/2 z-10
-              bg-black/30 hover:bg-[#FFC107] text-white hover:text-[#0B2C55]
-              rounded-full p-2 sm:p-2.5 backdrop-blur-sm
-              transition-all duration-200 hover:scale-110 border border-white/20">
-              <ChevronRight size={20} />
-            </button>
-
-            {/* Slide dots — inside poster, at bottom center */}
-            <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {/* Dots */}
+            <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
               {posterSlides.map((_, i) => (
-                <button key={i} onClick={() => setSlide(i)} aria-label={`Slide ${i + 1}`}
+                <button
+                  key={i}
+                  onClick={() => setSlide(i)}
+                  aria-label={`Go to slide ${i + 1}`}
                   className={`rounded-full transition-all duration-300
-                  ${i === slide
-                      ? "w-8 h-2 bg-[#FFC107] shadow-[0_0_8px_rgba(255,193,7,0.6)]"
-                      : "w-2 h-2 bg-white/40 hover:bg-white/70"}`}
+                    ${i === slide
+                      ? "w-7 h-2 sm:w-9 sm:h-2 bg-[#FFC107] shadow-[0_0_10px_rgba(255,193,7,0.7)]"
+                      : "w-2 h-2 bg-white/60 hover:bg-white/90"}`}
                 />
               ))}
             </div>
@@ -296,36 +504,28 @@ export default function HeroSection() {
         </div>
 
         {/* ══════════════════════════════════════
-          2. POPULAR PROGRAMS WHITE CARD
-          Sits directly below the poster,
-          slightly pulled up to create
-          the Vedantu overlap look
-      ══════════════════════════════════════ */}
-        <div className="max-w-[90%] sm:max-w-[600px] lg:max-w-[700px] mx-auto px-3 sm:px-5 lg:px-8 -mt-4 sm:-mt-6 relative z-10">
+            2. POPULAR PROGRAMS — floats over banner
+        ══════════════════════════════════════ */}
+        <div className="max-w-[96%] sm:max-w-[680px] lg:max-w-[820px] mx-auto px-2 sm:px-5 lg:px-8
+          -mt-7 sm:-mt-10 relative z-20 pb-4 sm:pb-6">
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.3 }}
+            transition={{ duration: 0.45, delay: 0.25 }}
           >
             <PopularProgramCards />
           </motion.div>
         </div>
-
       </div>
 
       {/* ══════════════════════════════════════
-          3. CONTENT SECTION
-          Dark navy background
-          Left: headline / CTAs / stats
-          Right: student cutout image
+          3. CONTENT SECTION — flows directly from above (no gap)
       ══════════════════════════════════════ */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#0B2C55] via-[#0d3360] to-[#071c36] mt-6">
-        {/* Background glows */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#0B2C55] via-[#0d3360] to-[#071c36]">
         <div className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full
           bg-[#FFC107]/[0.04] blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-[350px] h-[350px] rounded-full
           bg-[#FF4CAF]/[0.03] blur-[80px] pointer-events-none" />
-        {/* Floating dots */}
         {[
           { top: "20%", left: "8%", size: 8, dur: 6, del: 0 },
           { top: "65%", left: "52%", size: 5, dur: 5, del: 1 },
@@ -341,7 +541,7 @@ export default function HeroSection() {
           />
         ))}
 
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16 lg:py-20">
+        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-14 pb-12 md:pb-16 lg:pb-20">
           <div className="grid lg:grid-cols-[1.2fr_1fr] gap-8 lg:gap-14 items-center">
 
             {/* ── Left: Text content ── */}
@@ -460,7 +660,6 @@ export default function HeroSection() {
               transition={{ duration: 0.65, delay: 0.2 }}
               className="relative order-1 lg:order-2 flex justify-center lg:justify-end">
 
-              {/* Glow ring */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
                 w-[280px] h-[280px] lg:w-[360px] lg:h-[360px] rounded-full
                 bg-[#FFC107]/[0.07] blur-[50px] pointer-events-none" />
@@ -468,7 +667,6 @@ export default function HeroSection() {
                 w-[260px] h-[260px] lg:w-[340px] lg:h-[340px] rounded-full
                 border border-[#FFC107]/[0.1] pointer-events-none" />
 
-              {/* Floating student image */}
               <motion.img
                 src={studentImg}
                 alt="ARK student"
@@ -479,7 +677,6 @@ export default function HeroSection() {
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
               />
 
-              {/* Floating badge — top right */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.8, type: "spring", stiffness: 200, damping: 15 }}
@@ -494,7 +691,6 @@ export default function HeroSection() {
                 </div>
               </motion.div>
 
-              {/* Floating badge — bottom left */}
               <motion.div
                 initial={{ opacity: 0, scale: 0.7 }} animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 1.0, type: "spring", stiffness: 200, damping: 15 }}
@@ -514,6 +710,6 @@ export default function HeroSection() {
         </div>
       </div>
 
-    </section >
+    </section>
   );
 }
