@@ -25,7 +25,7 @@ const milestones = [
   { year: "2019", title: "First NEET Qualifiers", desc: "First batch of NEET qualifiers graduated with a 75% qualification rate, validating our structured approach to medical entrance preparation." },
   { year: "2021", title: "Programs Expanded", desc: "Launched ARK Nestlings (Early Childhood), NEET Foundation, and expanded tuition coverage to all three major boards — CBSE, ICSE, and State Board." },
   { year: "2023", title: "Landmark Results", desc: "Achieved 80% NEET qualification rate, produced 3 government medical seat holders, and maintained a 95%+ board distinction rate across all programs." },
-  { year: "2024", title: "Franchise & Growth", desc: "Top scorer achieved 680/720 in NEET (AIR 4,821). Launched franchise model with three formats — Flagship, Studio, and POD — to expand the ARK system across Chennai and Tamil Nadu." },
+  { year: "2024", title: "Franchise & Growth", desc: "Batches delivered an average +120 mark improvement with students securing Government and Private medical seats. Launched franchise model with three formats — Flagship, Studio, and POD — to expand the ARK system across Chennai and Tamil Nadu." },
 ];
 
 const programs = [

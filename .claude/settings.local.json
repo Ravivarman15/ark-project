@@ -4,7 +4,11 @@
       "Bash(npx vite *)",
       "Bash(python -c ' *)",
       "PowerShell(Test-Path *)",
-      "Bash(node *)"
+      "Bash(node *)",
+      "Read(//c/c/Users/arrav/Pictures/ark-main/frontend/**)",
+      "Read(//c/c/Users/arrav/Pictures/ark-main/frontend/src/**)",
+      "Bash(npx tsc *)",
+      "Bash(npm run *)"
     ]
   }
 }

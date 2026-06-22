@@ -6,10 +6,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext
 import Autoplay from "embla-carousel-autoplay";
 
 const neetToppers = [
-  { student: "Priya S.", score: 680, total: 720, rank: "AIR 4,821", achievement: "Govt. Medical Seat", year: "2024" },
-  { student: "Arjun K.", score: 672, total: 720, rank: "AIR 6,102", achievement: "Govt. Medical Seat", year: "2024" },
-  { student: "Divya R.", score: 665, total: 720, rank: "AIR 7,834", achievement: "Govt. Medical Seat", year: "2024" },
-  { student: "Meera J.", score: 648, total: 720, rank: "AIR 12,450", achievement: "Private Medical Seat", year: "2024" },
+  { student: "Ananya S.", score: 650, total: 720, rank: "2025 Batch", achievement: "Government MBBS", year: "2025" },
+  { student: "Harish Kumar", score: 624, total: 720, rank: "2025 Batch", achievement: "Government MBBS", year: "2025" },
+  { student: "Priyadharshini R.", score: 602, total: 720, rank: "2025 Batch", achievement: "State Quota", year: "2025" },
+  { student: "Vignesh S.", score: 588, total: 720, rank: "+180 Marks", achievement: "Private Medical", year: "2025" },
 ];
 
 const boardToppers = [
@@ -91,11 +91,11 @@ export default function ResultsSection() {
             Proven Results
           </span>
           <h2 className="text-4xl md:text-5xl font-black text-white mt-6 mb-4">
-            Our Toppers{" "}
-            <span className="text-ark-yellow">Shine</span>
+            Every Student Gets a{" "}
+            <span className="text-ark-yellow">Strategy</span>
           </h2>
           <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Real scores. Real ranks. ARK's structured system consistently produces top performers in NEET and Board examinations.
+            Real students. Real seats. ARK's structured mentoring moves every learner forward — measured by growth, not by showcasing one topper.
           </p>
         </motion.div>
 
@@ -119,7 +119,7 @@ export default function ResultsSection() {
             <div className="w-10 h-10 rounded-xl bg-ark-yellow flex items-center justify-center">
               <GraduationCap className="w-5 h-5 text-ark-navy" />
             </div>
-            <h3 className="text-2xl font-black text-white">NEET Toppers 2024</h3>
+            <h3 className="text-2xl font-black text-white">NEET Results — 2025 Batch</h3>
           </div>
 
           {/* Desktop grid view */}

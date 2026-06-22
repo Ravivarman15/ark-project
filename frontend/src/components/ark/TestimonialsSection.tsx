@@ -12,8 +12,8 @@ const testimonials = [
   },
   {
     name: "Arun Babu",
-    role: "NEET 2024, AIR 6,102",
-    text: "The discipline system at ARK was different from anywhere else I had studied. Every test was tracked, every weak area was remediated. The HRC concept mastery framework genuinely helped me secure 672 marks.",
+    role: "NEET 2025 · Government MBBS",
+    text: "The discipline system at ARK was different from anywhere else I had studied. Every test was tracked, every weak area was remediated. The HRC concept mastery framework helped me improve steadily and secure a Government MBBS seat.",
     rating: 5,
     type: "Student",
   },

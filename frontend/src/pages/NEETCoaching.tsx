@@ -22,10 +22,10 @@ const curriculum = [
 ];
 
 const results = [
-    { name: "Priya S.", score: "680/720", rank: "AIR 4,821", achievement: "Govt. Medical Seat" },
-    { name: "Arjun K.", score: "672/720", rank: "AIR 6,102", achievement: "Govt. Medical Seat" },
-    { name: "Divya R.", score: "665/720", rank: "AIR 7,834", achievement: "Govt. Medical Seat" },
-    { name: "Meera J.", score: "648/720", rank: "AIR 12,450", achievement: "Private Medical Seat" },
+    { name: "Ananya S.", score: "650/720", rank: "2025 Batch", achievement: "Government MBBS" },
+    { name: "Harish Kumar", score: "624/720", rank: "2025 Batch", achievement: "Government MBBS" },
+    { name: "Priyadharshini R.", score: "602/720", rank: "2025 Batch", achievement: "State Quota" },
+    { name: "Vignesh S.", score: "588/720", rank: "+180 Marks", achievement: "Private Medical" },
 ];
 
 const whyARK = [
@@ -91,7 +91,7 @@ export default function NEETCoachingPage() {
                             </motion.div>
                             <motion.div initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }} className="hidden lg:block">
                                 <div className="bg-white/10 backdrop-blur-sm border border-white/15 rounded-3xl p-8">
-                                    <h3 className="text-xl font-black text-[#FFC107] mb-6">NEET 2024 Toppers at ARK</h3>
+                                    <h3 className="text-xl font-black text-[#FFC107] mb-6">NEET 2025 Results at ARK</h3>
                                     <div className="space-y-4">
                                         {results.map((r, i) => (
                                             <div key={r.name} className="flex items-center gap-4 bg-white/5 rounded-xl p-4">

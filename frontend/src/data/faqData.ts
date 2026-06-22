@@ -83,8 +83,8 @@ export const faqCategories: FAQCategory[] = [
                 links: [{ text: "See our results", href: "/results-achievements" }],
             },
             {
-                q: "What are ARK's NEET topper scores?",
-                a: "ARK's NEET toppers have achieved exceptional scores: Priya S. scored 680/720 (AIR 4,821) and secured a Government Medical Seat in 2024. Arjun K. scored 672/720 (AIR 6,102), and Divya R. scored 665/720 (AIR 7,834) — both securing Government Medical Seats. These results demonstrate the effectiveness of our structured NEET coaching approach in Chennai.",
+                q: "What kind of NEET results does ARK produce?",
+                a: "ARK measures success by student growth, not a single topper. Our 2025 batch scored from 400 to a high of 650, with an average improvement of around +120 marks and a highest improvement of +210 marks. Four out of every ten students crossed 500+, and students secured Government MBBS and Private Medical admissions through General, Reserved, and 7.5% Government School quota pathways.",
                 links: [{ text: "View all results", href: "/results-achievements" }],
             },
         ],
