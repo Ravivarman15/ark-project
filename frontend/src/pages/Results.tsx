@@ -211,33 +211,42 @@ function Counter({ value, prefix = "", suffix = "", duration = 2000 }: { value: 
     );
 }
 
-function StudentAvatar({ name, img, index }: { name: string; img?: string; index: number }) {
-    const [errored, setErrored] = useState(false);
-    const initials = name
-        .split(" ")
-        .map((n) => n[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase();
 
-    if (img && !errored) {
-        return (
-            <img
-                src={img}
-                alt={`${name} — ARK Learning Arena student`}
-                loading="lazy"
-                onError={() => setErrored(true)}
-                className="w-full h-full object-cover"
-            />
-        );
+
+/* ─────────────────────────────────────────────────────────────
+   PAGE
+   ───────────────────────────────────────────────────────────── */
+
+const heroStats = [
+    {
+        icon: TrendingUp,
+        title: "+120 Marks Gain",
+        desc: "Average score improvement from diagnostic test to final NEET.",
+        highlightColor: "text-[#FFC107]",
+        bgGlow: "rgba(255, 193, 7, 0.1)"
+    },
+    {
+        icon: Target,
+        title: "1-on-1 Roadmap",
+        desc: "Custom academic strategies mapping admission routes.",
+        highlightColor: "text-ark-pink",
+        bgGlow: "rgba(255, 76, 175, 0.1)"
+    },
+    {
+        icon: Users,
+        title: "Personalized Batches",
+        desc: "Small groups ensuring focused mentor attention.",
+        highlightColor: "text-blue-400",
+        bgGlow: "rgba(96, 165, 250, 0.1)"
+    },
+    {
+        icon: GraduationCap,
+        title: "Govt Quota Success",
+        desc: "Excellent utilization of General, Reserved & 7.5% school quotas.",
+        highlightColor: "text-emerald-400",
+        bgGlow: "rgba(52, 211, 153, 0.1)"
     }
-
-    return (
-        <div className={`w-full h-full flex items-center justify-center bg-gradient-to-br ${monogramGradients[index % monogramGradients.length]}`}>
-            <span className="text-4xl md:text-5xl font-black text-[#FFC107]/90 tracking-tight">{initials}</span>
-        </div>
-    );
-}
+];
 
 /* ─────────────────────────────────────────────────────────────
    PAGE
@@ -288,21 +297,64 @@ export default function ResultsPage() {
 
                     <div className="container-ark relative z-10">
                         <Breadcrumbs items={[{ label: "NEET Results & Success", href: "/results-achievements" }]} />
-                        <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center mt-6 max-w-4xl mx-auto">
-                            <span className="inline-flex items-center gap-2 bg-[#FFC107]/15 rounded-full px-4 py-1.5 mb-6 mx-auto">
-                                <Trophy className="w-4 h-4 text-[#FFC107]" />
-                                <span className="text-[#FFC107] text-sm font-semibold">NEET Results & Student Success</span>
-                            </span>
-                            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.12] mb-6">
-                                Every student gets a <span className="text-[#FFC107]">strategy</span>.
-                                <br className="hidden sm:block" /> Every mark counts.
-                                <br className="hidden sm:block" /> Every <span className="text-[#FFC107]">dream</span> matters.
-                            </h1>
-                            <p className="text-white/80 text-lg leading-relaxed max-w-2xl mx-auto">
-                                From potential to performance. From preparation to medical college. At ARK, success is measured by how far every
-                                student grows — not by showcasing a single topper.
-                            </p>
-                        </motion.div>
+                        
+                        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center mt-8">
+                            {/* Left Column: Heading Content */}
+                            <motion.div 
+                                initial={{ opacity: 0, x: -30 }} 
+                                animate={{ opacity: 1, x: 0 }} 
+                                transition={{ duration: 0.6 }} 
+                                className="lg:col-span-7 text-left max-w-3xl"
+                            >
+                                <span className="inline-flex items-center gap-2 bg-[#FFC107]/15 rounded-full px-4 py-1.5 mb-6 border border-[#FFC107]/20">
+                                    <Trophy className="w-4 h-4 text-[#FFC107]" />
+                                    <span className="text-[#FFC107] text-sm font-semibold tracking-wider uppercase">Results & Achievements</span>
+                                </span>
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black leading-[1.12] mb-6">
+                                    Every student gets a <span className="text-gradient-yellow">strategy</span>.
+                                    <br className="hidden sm:block" /> Every mark counts.
+                                    <br className="hidden sm:block" /> Every <span className="text-[#FFC107]">dream</span> matters.
+                                </h1>
+                                <p className="text-white/80 text-lg leading-relaxed max-w-2xl">
+                                    From potential to performance. From preparation to medical college. At ARK, success is measured by how far every
+                                    student grows — not by showcasing a single topper.
+                                </p>
+                            </motion.div>
+
+                            {/* Right Column: Highlight Stats Cards */}
+                            <motion.div 
+                                initial={{ opacity: 0, x: 30 }} 
+                                animate={{ opacity: 1, x: 0 }} 
+                                transition={{ duration: 0.6, delay: 0.15 }} 
+                                className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4"
+                            >
+                                {heroStats.map((stat) => {
+                                    const Icon = stat.icon;
+                                    return (
+                                        <motion.div
+                                            key={stat.title}
+                                            whileHover={{ y: -5, scale: 1.02 }}
+                                            className="relative p-5 rounded-2xl bg-white/[0.05] backdrop-blur-md border border-white/10 hover:bg-white/[0.08] hover:border-white/20 transition-all duration-300 shadow-xl overflow-hidden group"
+                                        >
+                                            {/* Glowing effect inside card */}
+                                            <div 
+                                                className="absolute -top-10 -right-10 w-24 h-24 rounded-full blur-2xl transition-all duration-300 opacity-50 group-hover:opacity-100" 
+                                                style={{ backgroundColor: stat.bgGlow }}
+                                            />
+                                            <div className="flex flex-col gap-3 relative z-10">
+                                                <div className={`w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center ${stat.highlightColor}`}>
+                                                    <Icon className="w-5 h-5" />
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-extrabold text-base text-white tracking-tight">{stat.title}</h3>
+                                                    <p className="text-white/60 text-xs mt-1 leading-normal">{stat.desc}</p>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
+                            </motion.div>
+                        </div>
                     </div>
                 </section>
 
@@ -502,77 +554,90 @@ export default function ResultsPage() {
                                     {/* NEET Scrollable Items */}
                                     <div
                                         ref={neetScrollRef}
-                                        className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-6 scroll-smooth px-1"
+                                        className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none py-4 pb-6 scroll-smooth px-2 -my-4"
                                     >
                                         {neetAchievers
                                             .filter((s) => neetYearFilter === 'all' || s.year === neetYearFilter)
-                                            .map((s, i) => (
-                                                <motion.div
-                                                    key={s.name}
-                                                    initial={{ opacity: 0, scale: 0.95 }}
-                                                    whileInView={{ opacity: 1, scale: 1 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ duration: 0.4, delay: (i % 4) * 0.08 }}
-                                                    className="flex-shrink-0 w-[285px] sm:w-[310px] snap-start group/card relative rounded-2xl bg-white border border-border shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-300 overflow-hidden"
-                                                >
-                                                    {/* Glow border on hover */}
-                                                    <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl ring-2 ring-[#FFC107]/45" />
-
-                                                    {/* Portrait */}
-                                                    <div className="relative h-56 bg-muted overflow-hidden">
-                                                        <StudentAvatar name={s.name} img={s.img} index={i} />
-                                                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B2C55]/85 to-transparent" />
+                                            .map((s, i) => {
+                                                const initials = s.name
+                                                    .split(" ")
+                                                    .map((n) => n[0])
+                                                    .join("")
+                                                    .slice(0, 2)
+                                                    .toUpperCase();
+                                                return (
+                                                    <motion.div
+                                                        key={s.name}
+                                                        initial={{ opacity: 0, scale: 0.95 }}
+                                                        whileInView={{ opacity: 1, scale: 1 }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ duration: 0.4, delay: (i % 4) * 0.08 }}
+                                                        className="flex-shrink-0 w-[295px] sm:w-[320px] snap-start group/card relative rounded-2xl bg-gradient-to-b from-white to-slate-50/50 border border-slate-200/80 shadow-[0_10px_35px_-5px_rgba(11,44,85,0.08)] hover:shadow-[0_20px_50px_-5px_rgba(255,193,7,0.28)] hover:border-[#FFC107]/40 hover:from-white hover:to-[#FFC107]/5 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col justify-between"
+                                                    >
+                                                        {/* Top border glow line */}
+                                                        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0B2C55] via-[#FFC107] to-[#0B2C55] opacity-50 group-hover/card:opacity-100 transition-opacity duration-300" />
                                                         
-                                                        {/* Batch Label */}
-                                                        <span className="absolute top-3 right-3 bg-ark-navy/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/10">
-                                                            Batch {s.year}
-                                                        </span>
+                                                        {/* Ribbon & Year Info */}
+                                                        <div className="p-6 pb-4 flex flex-col gap-4">
+                                                            <div className="flex items-center justify-between gap-2">
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider bg-ark-navy/10 text-ark-navy px-2.5 py-1 rounded-full border border-ark-navy/5">
+                                                                    Batch {s.year}
+                                                                </span>
+                                                                <span className="inline-flex items-center gap-1 bg-ark-pink text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm max-w-[65%] truncate">
+                                                                    <Star className="w-2.5 h-2.5 flex-shrink-0" />
+                                                                    <span className="truncate">{s.ribbon}</span>
+                                                                </span>
+                                                            </div>
 
-                                                        {/* Achievement ribbon / quota info */}
-                                                        <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-ark-pink text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
-                                                            <Star className="w-3 h-3" />
-                                                            {s.ribbon}
-                                                        </span>
-                                                    </div>
-
-                                                    {/* Details */}
-                                                    <div className="p-5">
-                                                        <h3 className="font-black text-ark-navy text-xl group-hover/card:text-ark-pink transition-colors line-clamp-1">{s.name}</h3>
-                                                        <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-ark-navy bg-muted px-3 py-1.5 rounded-full">
-                                                            <GraduationCap className="w-3.5 h-3.5 text-ark-yellow" />
-                                                            {s.category}
+                                                            {/* Profile Name & Monogram Group */}
+                                                            <div className="flex items-center gap-4 mt-2">
+                                                                <div className={`w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-br ${monogramGradients[i % monogramGradients.length]} shadow-[inset_0_2px_8px_rgba(0,0,0,0.15)] flex-shrink-0 border-2 border-white`}>
+                                                                    <span className="text-lg font-black text-[#FFC107] tracking-tight">{initials}</span>
+                                                                </div>
+                                                                <div className="min-w-0">
+                                                                    <h3 className="font-black text-ark-navy text-2xl group-hover/card:text-ark-pink transition-colors leading-tight truncate">
+                                                                        {s.name}
+                                                                    </h3>
+                                                                    <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
+                                                                        <GraduationCap className="w-3.5 h-3.5 text-ark-yellow flex-shrink-0" />
+                                                                        <span className="truncate">{s.category}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                         {/* Score Badge */}
-                                                        <div className="mt-4 rounded-xl bg-gradient-to-br from-[#0B2C55] to-[#0d3360] p-4 shadow-card">
-                                                            <div className="flex items-center justify-between">
-                                                                <div className="flex items-center gap-2">
-                                                                    <span className="w-8 h-8 rounded-lg bg-[#FFC107]/20 flex items-center justify-center">
-                                                                        <TrendingUp className="w-4 h-4 text-[#FFC107]" />
-                                                                    </span>
-                                                                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider">NEET Score</span>
+                                                        <div className="px-6 pb-6 pt-2 flex-shrink-0">
+                                                            <div className="rounded-2xl bg-gradient-to-br from-[#0B2C55] to-[#071c36] p-4.5 shadow-[0_8px_20px_-6px_rgba(11,44,85,0.4)] group-hover/card:shadow-[0_12px_28px_-6px_rgba(255,193,7,0.25)] transition-all duration-500">
+                                                                <div className="flex items-center justify-between gap-3">
+                                                                    <div className="flex items-center gap-2 min-w-0">
+                                                                        <span className="w-8 h-8 rounded-lg bg-[#FFC107]/20 flex items-center justify-center flex-shrink-0">
+                                                                            <TrendingUp className="w-4 h-4 text-[#FFC107]" />
+                                                                        </span>
+                                                                        <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider truncate">NEET Score</span>
+                                                                    </div>
+                                                                    <div className="flex items-baseline gap-0.5 flex-shrink-0">
+                                                                        <span className="text-4xl font-black text-[#FFC107] leading-none drop-shadow-[0_0_12px_rgba(255,193,7,0.45)]">
+                                                                            <Counter value={s.score} />
+                                                                        </span>
+                                                                        <span className="text-xs font-bold text-white/40">/720</span>
+                                                                    </div>
                                                                 </div>
-                                                                <div className="flex items-baseline gap-0.5">
-                                                                    <span className="text-3xl font-black text-[#FFC107] leading-none drop-shadow-[0_0_12px_rgba(255,193,7,0.45)]">
-                                                                        <Counter value={s.score} />
-                                                                    </span>
-                                                                    <span className="text-xs font-bold text-white/40">/720</span>
+                                                                {/* Custom animated progress bar */}
+                                                                <div className="mt-3.5 h-2 rounded-full bg-white/10 overflow-hidden">
+                                                                    <motion.div
+                                                                        initial={{ width: 0 }}
+                                                                        whileInView={{ width: `${(s.score / 720) * 100}%` }}
+                                                                        viewport={{ once: true }}
+                                                                        transition={{ duration: 1.4, delay: 0.1, ease: "easeOut" }}
+                                                                        className="h-full rounded-full bg-gradient-to-r from-[#FFC107] to-[#ffd95e]"
+                                                                    />
                                                                 </div>
-                                                            </div>
-                                                            {/* Custom animated progress bar */}
-                                                            <div className="mt-3.5 h-2 rounded-full bg-white/10 overflow-hidden">
-                                                                <motion.div
-                                                                    initial={{ width: 0 }}
-                                                                    whileInView={{ width: `${(s.score / 720) * 100}%` }}
-                                                                    viewport={{ once: true }}
-                                                                    transition={{ duration: 1.4, delay: 0.1, ease: "easeOut" }}
-                                                                    className="h-full rounded-full bg-gradient-to-r from-[#FFC107] to-[#ffd95e]"
-                                                                />
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </motion.div>
-                                            ))}
+                                                    </motion.div>
+                                                );
+                                            })}
                                     </div>
 
                                     {/* Right Slide Button */}
@@ -598,79 +663,90 @@ export default function ResultsPage() {
                                     {/* BOARD Scrollable Items */}
                                     <div
                                         ref={boardScrollRef}
-                                        className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-6 scroll-smooth px-1"
+                                        className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-none py-4 pb-6 scroll-smooth px-2 -my-4"
                                     >
                                         {boardToppers
                                             .filter((s) => boardYearFilter === 'all' || s.year === boardYearFilter)
-                                            .map((s, i) => (
-                                                <motion.div
-                                                    key={s.name}
-                                                    initial={{ opacity: 0, scale: 0.95 }}
-                                                    whileInView={{ opacity: 1, scale: 1 }}
-                                                    viewport={{ once: true }}
-                                                    transition={{ duration: 0.4, delay: (i % 4) * 0.08 }}
-                                                    className="flex-shrink-0 w-[285px] sm:w-[310px] snap-start group/card relative rounded-2xl bg-white border border-border shadow-card hover:shadow-card-hover hover:-translate-y-2 transition-all duration-300 overflow-hidden"
-                                                >
-                                                    {/* Glow border on hover */}
-                                                    <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 pointer-events-none rounded-2xl ring-2 ring-[#FFC107]/45" />
-
-                                                    {/* Portrait */}
-                                                    <div className="relative h-56 bg-muted overflow-hidden">
-                                                        <StudentAvatar name={s.name} img={s.img} index={i} />
-                                                        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#0B2C55]/85 to-transparent" />
+                                            .map((s, i) => {
+                                                const initials = s.name
+                                                    .split(" ")
+                                                    .map((n) => n[0])
+                                                    .join("")
+                                                    .slice(0, 2)
+                                                    .toUpperCase();
+                                                return (
+                                                    <motion.div
+                                                        key={s.name}
+                                                        initial={{ opacity: 0, scale: 0.95 }}
+                                                        whileInView={{ opacity: 1, scale: 1 }}
+                                                        viewport={{ once: true }}
+                                                        transition={{ duration: 0.4, delay: (i % 4) * 0.08 }}
+                                                        className="flex-shrink-0 w-[295px] sm:w-[320px] snap-start group/card relative rounded-2xl bg-gradient-to-b from-white to-slate-50/50 border border-slate-200/80 shadow-[0_10px_35px_-5px_rgba(11,44,85,0.08)] hover:shadow-[0_20px_50px_-5px_rgba(255,76,175,0.22)] hover:border-ark-pink/40 hover:from-white hover:to-ark-pink/5 hover:-translate-y-2 transition-all duration-500 overflow-hidden flex flex-col justify-between"
+                                                    >
+                                                        {/* Top border glow line */}
+                                                        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#0B2C55] via-ark-pink to-[#0B2C55] opacity-50 group-hover/card:opacity-100 transition-opacity duration-300" />
                                                         
-                                                        {/* Batch Label */}
-                                                        <span className="absolute top-3 right-3 bg-ark-navy/80 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-full border border-white/10">
-                                                            Class 12 Board {s.year}
-                                                        </span>
+                                                        {/* Ribbon & Year Info */}
+                                                        <div className="p-6 pb-4 flex flex-col gap-4">
+                                                            <div className="flex items-center justify-between gap-2">
+                                                                <span className="text-[10px] font-bold uppercase tracking-wider bg-ark-navy/10 text-ark-navy px-2.5 py-1 rounded-full border border-ark-navy/5">
+                                                                    Board {s.year}
+                                                                </span>
+                                                                <span className="inline-flex items-center gap-1 bg-ark-pink text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-sm max-w-[65%] truncate">
+                                                                    <Star className="w-2.5 h-2.5 flex-shrink-0" />
+                                                                    <span className="truncate">{s.ribbon}</span>
+                                                                </span>
+                                                            </div>
 
-                                                        {/* Achievement ribbon */}
-                                                        <span className="absolute top-3 left-3 inline-flex items-center gap-1 bg-ark-pink text-white text-[11px] font-bold px-3 py-1 rounded-full shadow-md">
-                                                            <Star className="w-3 h-3" />
-                                                            {s.ribbon}
-                                                        </span>
-                                                    </div>
-
-                                                    {/* Details */}
-                                                    <div className="p-5">
-                                                        <h3 className="font-black text-ark-navy text-xl group-hover/card:text-ark-pink transition-colors line-clamp-1">{s.name}</h3>
-                                                        <div className="mt-2 inline-flex items-center gap-1.5 text-xs font-bold text-ark-navy bg-muted px-3 py-1.5 rounded-full">
-                                                            <Award className="w-3.5 h-3.5 text-ark-yellow" />
-                                                            {s.board}
+                                                            {/* Profile Name & Monogram Group */}
+                                                            <div className="flex items-center gap-4 mt-2">
+                                                                <div className={`w-14 h-14 rounded-full flex items-center justify-center bg-gradient-to-br ${monogramGradients[i % monogramGradients.length]} shadow-[inset_0_2px_8px_rgba(0,0,0,0.15)] flex-shrink-0 border-2 border-white`}>
+                                                                    <span className="text-lg font-black text-[#FFC107] tracking-tight">{initials}</span>
+                                                                </div>
+                                                                <div className="min-w-0">
+                                                                    <h3 className="font-black text-ark-navy text-2xl group-hover/card:text-ark-pink transition-colors leading-tight truncate">
+                                                                        {s.name}
+                                                                    </h3>
+                                                                    <div className="mt-1 inline-flex items-center gap-1 text-[11px] font-bold text-muted-foreground">
+                                                                        <Award className="w-3.5 h-3.5 text-ark-yellow flex-shrink-0" />
+                                                                        <span className="truncate">{s.board}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
                                                         </div>
 
                                                         {/* Score Badge */}
-                                                        <div className="mt-4 rounded-xl bg-gradient-to-br from-[#0B2C55] to-[#0d3360] p-4 shadow-card">
-                                                            <div className="flex items-center justify-between">
-                                                                <div className="flex items-center gap-2">
-                                                                    <span className="w-8 h-8 rounded-lg bg-[#FFC107]/20 flex items-center justify-center">
-                                                                        <Target className="w-4 h-4 text-[#FFC107]" />
-                                                                    </span>
-                                                                    <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider">Total / %</span>
-                                                                </div>
-                                                                <div className="flex flex-col items-end">
-                                                                    <div className="text-[#FFC107] font-black text-xl leading-none">
-                                                                        {s.percentage}%
+                                                        <div className="px-6 pb-6 pt-2 flex-shrink-0">
+                                                            <div className="rounded-2xl bg-gradient-to-br from-[#0B2C55] to-[#071c36] p-4.5 shadow-[0_8px_20px_-6px_rgba(11,44,85,0.4)] group-hover/card:shadow-[0_12px_28px_-6px_rgba(255,76,175,0.2)] transition-all duration-500">
+                                                                <div className="flex items-center justify-between gap-3">
+                                                                    <div className="flex items-center gap-2 min-w-0">
+                                                                        <span className="w-8 h-8 rounded-lg bg-[#FFC107]/20 flex items-center justify-center flex-shrink-0">
+                                                                            <Target className="w-4 h-4 text-[#FFC107]" />
+                                                                        </span>
+                                                                        <span className="text-white/60 text-[10px] font-bold uppercase tracking-wider truncate">Total / %</span>
                                                                     </div>
-                                                                    <div className="text-[10px] text-white/50 font-bold mt-0.5">
-                                                                        ({s.score})
+                                                                    <div className="flex items-baseline gap-1.5 flex-shrink-0">
+                                                                        <span className="text-3xl font-black text-[#FFC107] leading-none drop-shadow-[0_0_12px_rgba(255,193,7,0.45)]">
+                                                                            {s.percentage}%
+                                                                        </span>
+                                                                        <span className="text-xs font-bold text-white/50">({s.score})</span>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            {/* Custom animated progress bar */}
-                                                            <div className="mt-3.5 h-2 rounded-full bg-white/10 overflow-hidden">
-                                                                <motion.div
-                                                                    initial={{ width: 0 }}
-                                                                    whileInView={{ width: `${s.percentage}%` }}
-                                                                    viewport={{ once: true }}
-                                                                    transition={{ duration: 1.4, delay: 0.1, ease: "easeOut" }}
-                                                                    className="h-full rounded-full bg-gradient-to-r from-[#FFC107] to-[#ffd95e]"
-                                                                />
+                                                                {/* Custom animated progress bar */}
+                                                                <div className="mt-3.5 h-2 rounded-full bg-white/10 overflow-hidden">
+                                                                    <motion.div
+                                                                        initial={{ width: 0 }}
+                                                                        whileInView={{ width: `${s.percentage}%` }}
+                                                                        viewport={{ once: true }}
+                                                                        transition={{ duration: 1.4, delay: 0.1, ease: "easeOut" }}
+                                                                        className="h-full rounded-full bg-gradient-to-r from-[#FFC107] to-[#ffd95e]"
+                                                                    />
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </motion.div>
-                                            ))}
+                                                    </motion.div>
+                                                );
+                                            })}
                                     </div>
 
                                     {/* Right Slide Button */}
@@ -686,7 +762,7 @@ export default function ResultsPage() {
                         </div>
 
                         <p className="text-center text-muted-foreground/70 text-xs mt-10">
-                            Student names shown are representative of ARK's exam outcomes. Verified photographs are added with student and parent consent.
+                            Student names shown are representative of ARK's exam outcomes. Verified details are added with student and parent consent.
                         </p>
                     </div>
                 </section>
